@@ -29,7 +29,7 @@ uint16_t MemoryMap::Read(uint16_t address) {
 	
 void MemoryMap::Write(uint16_t address, uint8_t value) {
 	if (address < m_Bytes.size()) {
-		return m_Bytes[address] = value;
+		m_Bytes[address] = value;
 	}
 }
 

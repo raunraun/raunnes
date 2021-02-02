@@ -15,6 +15,7 @@ static  InstructionDetails g_InstructionDetails[256] = {
 };
 
  CPUCore6502::CPUCore6502(MemoryMap& mem) : m_Memory(mem) {
+	 reset();
 }
 
 void CPUCore6502::reset() {
