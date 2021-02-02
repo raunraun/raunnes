@@ -2,8 +2,11 @@
 
 #include <cstdint>
 
+#include "MemoryMap.h"
+
 namespace raunnes {
 class CPUCore6502State {
+public:
 	uint8_t A;
 	uint8_t X;
 	uint8_t Y;
@@ -25,22 +28,27 @@ class CPUCore6502State {
 	uint16_t PC;
 	uint16_t SP;
 
+	void SetFlags(uint8_t Flag) {
+		S = Flag;
+	}
 };
 
 class CPUCore6502 {
 public:
-	CPUCore6502();
+	CPUCore6502(MemoryMap& mem);
 	~CPUCore6502();
+
+	void reset();
+	void Execute();
 
 public:
 	CPUCore6502(const CPUCore6502&) = delete;
 	CPUCore6502& operator=(const CPUCore6502&) = delete;
 
-public:
-
-
 private:
 	CPUCore6502State m_State;
+	MemoryMap& m_Memory;
+
 
 };
 }
