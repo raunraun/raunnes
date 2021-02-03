@@ -41,6 +41,8 @@ public:
 		uint16_t Address;
 	};
 
+	typedef void (CPUCore6502::* ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
+
 	enum AddressingMode {
 		AddressingModeAbsolute = 1,
 		AddressingModeAbsoluteX,

@@ -4,15 +4,13 @@
 
 namespace raunnes {
 
-typedef void (CPUCore6502::*ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
-
 struct InstructionDetails {
 	uint32_t AddresingMode;
 	uint32_t InstructionSize;
 	uint32_t CycleCount;
 	uint32_t PageCrossCycleCost;
 	char* Name;
-	ExecutionDelegate Delegate;
+	CPUCore6502::ExecutionDelegate Delegate;
 };
 
 static  InstructionDetails g_InstructionDetails[256] = {
