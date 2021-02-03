@@ -41,7 +41,7 @@ public:
 		uint16_t Address;
 	};
 
-	typedef void (CPUCore6502::* ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
+	typedef void (CPUCore6502::*ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
 
 	enum AddressingMode {
 		AddressingModeAbsolute = 1,
@@ -59,11 +59,25 @@ public:
 		AddressingModeZeroPageY,
 	};
 
+	struct InstructionDetails {
+		uint32_t AddresingMode;
+		uint32_t InstructionSize;
+		uint32_t CycleCount;
+		uint32_t PageCrossCycleCost;
+		char* Name;
+		CPUCore6502::ExecutionDelegate Delegate;
+	};
+
+	typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State& );
+
 public:
 	CPUCore6502(MemoryMap& mem);
 	~CPUCore6502();
 
-	void reset();
+	void InstallPreExecutionCallBack(ExecutionCallBack cb);
+	void InstallPostExecutionCallBack(ExecutionCallBack cb);
+
+	void Reset();
 	void Execute();
 
 	void JMP(DynamicExecutionInfo& info);
@@ -75,9 +89,9 @@ public:
 private:
 	CPUCore6502State m_State;
 	uint64_t m_Cycles;
-
 	MemoryMap& m_Memory;
-
+	ExecutionCallBack m_PreexecutionCallBack;
+	ExecutionCallBack m_PostexecutionCallBack;
 
 };
 }

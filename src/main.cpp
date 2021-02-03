@@ -4,6 +4,13 @@
 #include "6502Core.h"
 #include "MemoryMap.h"
 
+void log(const raunnes::CPUCore6502::InstructionDetails& info,
+    const raunnes::CPUCore6502::DynamicExecutionInfo& details,
+    const raunnes::CPUCore6502::CPUCore6502State& state) {
+
+    printf("Hi\n");
+}
+
 int main(int argc, char** argv) {
     
     std::fstream romFile("../tests/nestest/nestest.nes", std::ios::in | std::ios::binary);
@@ -33,6 +40,7 @@ int main(int argc, char** argv) {
 
         raunnes::MemoryMap mem(buffer, prgSize);
         raunnes::CPUCore6502 cpu(mem);
+        cpu.InstallPreExecutionCallBack(log);
 
         cpu.Execute();
         cpu.Execute();

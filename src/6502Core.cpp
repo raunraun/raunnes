@@ -4,28 +4,32 @@
 
 namespace raunnes {
 
-struct InstructionDetails {
-	uint32_t AddresingMode;
-	uint32_t InstructionSize;
-	uint32_t CycleCount;
-	uint32_t PageCrossCycleCost;
-	char* Name;
-	CPUCore6502::ExecutionDelegate Delegate;
-};
-
-static  InstructionDetails g_InstructionDetails[256] = {
+static  CPUCore6502::InstructionDetails g_InstructionDetails[256] = {
 	#include "InstructionDetails.csv"
 };
 
- CPUCore6502::CPUCore6502(MemoryMap& mem) : m_Memory(mem) {
-	 reset();
+ CPUCore6502::CPUCore6502(MemoryMap& mem) : 
+	 // m_State(),
+	 m_Cycles(0),
+	 m_Memory(mem),
+	 m_PreexecutionCallBack(nullptr),
+	 m_PostexecutionCallBack(nullptr) {
+	
+	 Reset();
 }
 
  CPUCore6502::~CPUCore6502() {
-
  }
 
-void CPUCore6502::reset() {
+ void CPUCore6502::InstallPreExecutionCallBack(ExecutionCallBack cb) {
+	 m_PreexecutionCallBack = cb;
+ }
+
+ void CPUCore6502::InstallPostExecutionCallBack(ExecutionCallBack cb) {
+	 m_PostexecutionCallBack = cb;
+ }
+
+void CPUCore6502::Reset() {
 	m_State.SP = 0xFD;
 	m_State.PC = m_Memory.Read16(0xfffc);
 	m_State.PC = 0xc000;
@@ -37,7 +41,6 @@ void CPUCore6502::reset() {
 	m_State.SetFlags(0x24);
 
 	m_Cycles = 0;
-
 }
 
 void CPUCore6502::Execute() {
@@ -67,6 +70,10 @@ void CPUCore6502::Execute() {
 
 	m_Cycles += details.CycleCount;
 	m_State.PC += details.InstructionSize;
+
+	if (m_PreexecutionCallBack != nullptr) {
+		std::invoke(m_PreexecutionCallBack, details, info, m_State);
+	}
 
 	std::invoke(details.Delegate, this, info);
 }
