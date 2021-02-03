@@ -8,11 +8,11 @@ namespace raunnes {
 
 class MemoryMap {
 public:
-	MemoryMap();
+	MemoryMap(uint8_t* prg, uint16_t prgSize);
 	~MemoryMap();
 
 	uint16_t Read16(uint16_t address);
-	uint16_t Read(uint16_t address);
+	uint8_t Read(uint16_t address);
 	void Write(uint16_t address, uint8_t value);
 
 

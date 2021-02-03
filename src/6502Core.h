@@ -35,11 +35,35 @@ public:
 
 class CPUCore6502 {
 public:
+	struct DynamicExecutionInfo {
+		uint16_t PC;
+		uint16_t Address;
+	};
+
+	enum AddressingMode {
+		AddressingModeAbsolute = 1,
+		AddressingModeAbsoluteX,
+		AddressingModeAbsoluteY,
+		AddressingModeAccumulator,
+		AddressingModeImmediate,
+		AddressingModeImplied,
+		AddressingModeIndexedIndirect,
+		AddressingModeIndirect,
+		AddressingModeIndirectIndexed,
+		AddressingModeRelative,
+		AddressingModeZeroPage,
+		AddressingModeZeroPageX,
+		AddressingModeZeroPageY,
+	};
+
+public:
 	CPUCore6502(MemoryMap& mem);
 	~CPUCore6502();
 
 	void reset();
 	void Execute();
+
+	void JMP(DynamicExecutionInfo& info);
 
 public:
 	CPUCore6502(const CPUCore6502&) = delete;
@@ -47,6 +71,8 @@ public:
 
 private:
 	CPUCore6502State m_State;
+	uint64_t m_Cycles;
+
 	MemoryMap& m_Memory;
 
 
