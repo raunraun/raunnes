@@ -41,9 +41,8 @@ public:
 		uint8_t InstructionBytes[3];
 
 		uint8_t Opcode() const { return InstructionBytes[0]; }
-		uint16_t Address() const {
-			return ((uint16_t*)&InstructionBytes[1])[0];
-		}
+		uint16_t Address() const { return ((uint16_t*)&InstructionBytes[1])[0]; }
+		uint8_t Immediate() const { return InstructionBytes[1]; }
 	};
 
 	typedef void (CPUCore6502::*ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
@@ -86,6 +85,7 @@ public:
 	void Execute();
 
 	void JMP(DynamicExecutionInfo& info);
+	void LDX(DynamicExecutionInfo& info);
 
 public:
 	CPUCore6502(const CPUCore6502&) = delete;

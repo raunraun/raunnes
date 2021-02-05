@@ -29,20 +29,24 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         std::cout << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
         std::cout <<std::setw(28 - 5) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeImmediate:
+        std::cout << "#$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.Immediate();
+        std::cout << std::setw(28 - 4) << std::setfill(' ');
+        break;
     default:
         std::cout << "!!!!";
         std::cout << std::setw(28 - 4) << std::setfill(' ');
     }
     std::cout << "  ";
-    std::cout << "A:" << std::uppercase << std::setw(3) << std::setfill('0') << std::hex << state.A;
+    std::cout << "A:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.A;
     std::cout << " ";
-    std::cout << "X:" << std::uppercase << std::setw(3) << std::setfill('0') << std::hex << state.X;
+    std::cout << "X:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.X;
     std::cout << " ";
-    std::cout << "Y:" << std::uppercase << std::setw(3) << std::setfill('0') << std::hex << state.Y;
+    std::cout << "Y:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.Y;
     std::cout << " ";
-    std::cout << "P:" << std::uppercase << std::setw(3) << std::setfill('0') << std::hex << state.S;
+    std::cout << "P:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.S;
     std::cout << " ";
-    std::cout << "SP:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << state.SP;
+    std::cout << "SP:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.SP;
     std::cout << " ";
     std::cout << "PPU:" << std::uppercase << std::setw(7) << std::setfill(' ');
     std::cout << " ";

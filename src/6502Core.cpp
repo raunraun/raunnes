@@ -40,7 +40,7 @@ void CPUCore6502::Reset() {
 
 	m_State.SetFlags(0x24);
 
-	m_Cycles = 0;
+	m_Cycles = 7;
 }
 
 void CPUCore6502::Execute() {
@@ -59,6 +59,7 @@ void CPUCore6502::Execute() {
     case(AddressingModeAbsoluteY): break;
     case(AddressingModeAccumulator): break;
     case(AddressingModeImmediate): break;
+		break;
     case(AddressingModeImplied): break;
     case(AddressingModeIndexedIndirect): break;
     case(AddressingModeIndirect): break;
@@ -85,6 +86,10 @@ void CPUCore6502::Execute() {
 
 void CPUCore6502::JMP(DynamicExecutionInfo& info) {
 	m_State.PC = info.Address();
+}
+
+void CPUCore6502::LDX(DynamicExecutionInfo& info) {
+	m_State.X = info.Immediate();
 }
 
 }
