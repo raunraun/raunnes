@@ -44,15 +44,16 @@ void CPUCore6502::Reset() {
 }
 
 void CPUCore6502::Execute() {
-	uint8_t opcode = m_Memory.Read(m_State.PC);
-	InstructionDetails details = g_InstructionDetails[opcode];
 	DynamicExecutionInfo info = { 0 };
+	info.InstructionBytes[0] = m_Memory.Read(m_State.PC);
+	InstructionDetails details = g_InstructionDetails[info.Opcode()];
 
-	m_State.PC += 1;
+	for (uint32_t i = 1; i < details.InstructionSize; i++) {
+		info.InstructionBytes[i] = m_Memory.Read(m_State.PC + i);
+	}
 
     switch (details.AddresingMode) {
     case(AddressingModeAbsolute):
-		info.Address = m_Memory.Read16(m_State.PC);
 		break;
     case(AddressingModeAbsoluteX): break;
     case(AddressingModeAbsoluteY): break;
@@ -68,18 +69,22 @@ void CPUCore6502::Execute() {
     case(AddressingModeZeroPageY): break;
     };
 
+	if (m_PreexecutionCallBack != nullptr) {
+		std::invoke(m_PreexecutionCallBack, 
+			details, 
+			info, 
+			m_State,
+			m_Cycles);
+	}
+
 	m_Cycles += details.CycleCount;
 	m_State.PC += details.InstructionSize;
-
-	if (m_PreexecutionCallBack != nullptr) {
-		std::invoke(m_PreexecutionCallBack, details, info, m_State);
-	}
 
 	std::invoke(details.Delegate, this, info);
 }
 
 void CPUCore6502::JMP(DynamicExecutionInfo& info) {
-	m_State.PC = info.Address;
+	m_State.PC = info.Address();
 }
 
 }

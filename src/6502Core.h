@@ -38,7 +38,12 @@ public:
 
 	struct DynamicExecutionInfo {
 		uint16_t PC;
-		uint16_t Address;
+		uint8_t InstructionBytes[3];
+
+		uint8_t Opcode() const { return InstructionBytes[0]; }
+		uint16_t Address() const {
+			return ((uint16_t*)&InstructionBytes[1])[0];
+		}
 	};
 
 	typedef void (CPUCore6502::*ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
@@ -68,7 +73,7 @@ public:
 		CPUCore6502::ExecutionDelegate Delegate;
 	};
 
-	typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State& );
+	typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State&, const uint64_t cycles);
 
 public:
 	CPUCore6502(MemoryMap& mem);
