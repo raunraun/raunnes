@@ -33,6 +33,12 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         std::cout << "#$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.Immediate();
         std::cout << std::setw(28 - 4) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeZeroPage:
+        std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << details.Address();
+        std::cout << " = ";
+        std::cout << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.X;
+        std::cout << std::setw(28 - 8) << std::setfill(' ');
+        break;
     default:
         std::cout << "!!!!";
         std::cout << std::setw(28 - 4) << std::setfill(' ');
@@ -50,7 +56,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     std::cout << " ";
     std::cout << "PPU:" << std::uppercase << std::setw(7) << std::setfill(' ');
     std::cout << " ";
-    std::cout << "CYC:" << cycles;
+    std::cout << "CYC:" << std::dec << cycles;
 
     std::cout << std::endl;
 }

@@ -27,9 +27,9 @@ MemoryMap::~MemoryMap() {
 }
 
 uint16_t MemoryMap::Read16(uint16_t address) {
-	if (address+1 < m_Bytes.size()) {
+	if (((size_t)address)+1 < m_Bytes.size()) {
 		uint16_t low = m_Bytes[address];
-		uint16_t high = m_Bytes[address + 1];
+		uint16_t high = m_Bytes[((size_t)address) + 1];
 		uint16_t val = (high << 8) | low	;
 		return val;
 	}

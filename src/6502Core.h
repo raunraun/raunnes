@@ -36,17 +36,6 @@ public:
 		}
 	};
 
-	struct DynamicExecutionInfo {
-		uint16_t PC;
-		uint8_t InstructionBytes[3];
-
-		uint8_t Opcode() const { return InstructionBytes[0]; }
-		uint16_t Address() const { return ((uint16_t*)&InstructionBytes[1])[0]; }
-		uint8_t Immediate() const { return InstructionBytes[1]; }
-	};
-
-	typedef void (CPUCore6502::*ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
-
 	enum AddressingMode {
 		AddressingModeAbsolute = 1,
 		AddressingModeAbsoluteX,
@@ -63,6 +52,11 @@ public:
 		AddressingModeZeroPageY,
 	};
 
+	struct InstructionDetails;
+	struct DynamicExecutionInfo;
+
+	typedef void (CPUCore6502::* ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
+
 	struct InstructionDetails {
 		uint32_t AddresingMode;
 		uint32_t InstructionSize;
@@ -70,6 +64,33 @@ public:
 		uint32_t PageCrossCycleCost;
 		char* Name;
 		CPUCore6502::ExecutionDelegate Delegate;
+
+	};
+	struct DynamicExecutionInfo {
+		DynamicExecutionInfo(InstructionDetails& d, uint8_t o, uint16_t pc) : 
+			details(d), PC(pc) {
+			InstructionBytes[0] = o; InstructionBytes[1] = 0; InstructionBytes[2] = 0;
+		}
+		InstructionDetails& details;
+		uint16_t PC;
+		uint8_t InstructionBytes[3];
+
+		uint8_t Opcode() const { return InstructionBytes[0]; }
+		uint16_t Address() const {
+			switch (details.AddresingMode) {
+			case(AddressingModeAbsolute):
+				return ((uint16_t*)&InstructionBytes[1])[0];
+				break;
+			case(AddressingModeZeroPage):
+				return InstructionBytes[1];
+				break;
+			default:
+				return 0xffff;
+			};
+		}
+
+		uint16_t AddressZeropage() const { return InstructionBytes[1]; }
+		uint8_t Immediate() const { return InstructionBytes[1]; }
 	};
 
 	typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State&, const uint64_t cycles);
@@ -86,6 +107,7 @@ public:
 
 	void JMP(DynamicExecutionInfo& info);
 	void LDX(DynamicExecutionInfo& info);
+	void STX(DynamicExecutionInfo& info);
 
 public:
 	CPUCore6502(const CPUCore6502&) = delete;

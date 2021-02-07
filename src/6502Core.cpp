@@ -44,9 +44,10 @@ void CPUCore6502::Reset() {
 }
 
 void CPUCore6502::Execute() {
-	DynamicExecutionInfo info = { 0 };
-	info.InstructionBytes[0] = m_Memory.Read(m_State.PC);
-	InstructionDetails details = g_InstructionDetails[info.Opcode()];
+	uint8_t opcode = m_Memory.Read(m_State.PC);
+	InstructionDetails details = g_InstructionDetails[opcode];
+	DynamicExecutionInfo info(details, opcode, m_State.PC);
+
 
 	for (uint32_t i = 1; i < details.InstructionSize; i++) {
 		info.InstructionBytes[i] = m_Memory.Read(m_State.PC + i);
@@ -65,7 +66,8 @@ void CPUCore6502::Execute() {
     case(AddressingModeIndirect): break;
     case(AddressingModeIndirectIndexed): break;
     case(AddressingModeRelative): break;
-    case(AddressingModeZeroPage): break;
+    case(AddressingModeZeroPage): 
+		break;
     case(AddressingModeZeroPageX): break;
     case(AddressingModeZeroPageY): break;
     };
@@ -90,6 +92,10 @@ void CPUCore6502::JMP(DynamicExecutionInfo& info) {
 
 void CPUCore6502::LDX(DynamicExecutionInfo& info) {
 	m_State.X = info.Immediate();
+}
+
+void CPUCore6502::STX(DynamicExecutionInfo& info) {	
+	m_Memory.Write(info.Address(), m_State.X);
 }
 
 }
