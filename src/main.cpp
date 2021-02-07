@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 
     if (romFile.good()) {
         std::cout << "WOO\n";
-        
+
         _NESHeader header;
 
         romFile.read((char*)&header, sizeof(header));
@@ -92,14 +92,9 @@ int main(int argc, char** argv) {
         raunnes::CPUCore6502 cpu(mem);
         cpu.InstallPreExecutionCallBack(log);
 
-        cpu.Execute();
-        cpu.Execute();
-        cpu.Execute();
-        cpu.Execute();
-        cpu.Execute();
-        cpu.Execute();
-
-
+        for (int c = 0; c < 10; c++) {
+            cpu.Execute();
+        }
     }
     
 

@@ -86,8 +86,27 @@ void CPUCore6502::Execute() {
 	std::invoke(details.Delegate, this, info);
 }
 
+void CPUCore6502::Push(uint8_t val) {
+	m_Memory.Write(0x100 | m_State.SP, val);
+	m_State.SP -= 1;
+}
+
+void CPUCore6502::Push16(uint16_t val) {
+	uint8_t high = (uint8_t)(val >> 8);
+	uint8_t low = (uint8_t)(val & 0xff);
+
+	Push(high);
+	Push(low);
+}
+
 void CPUCore6502::JMP(DynamicExecutionInfo& info) {
 	m_State.PC = info.Address();
+}
+
+void CPUCore6502::JSR(DynamicExecutionInfo& info) {
+	uint16_t address = m_State.PC + info.details.InstructionSize - 1;
+	Push16(address);
+	m_State.PC = info.Immediate();
 }
 
 void CPUCore6502::LDX(DynamicExecutionInfo& info) {
@@ -97,5 +116,6 @@ void CPUCore6502::LDX(DynamicExecutionInfo& info) {
 void CPUCore6502::STX(DynamicExecutionInfo& info) {	
 	m_Memory.Write(info.Address(), m_State.X);
 }
+
 
 }
