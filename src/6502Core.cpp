@@ -106,7 +106,7 @@ void CPUCore6502::JMP(DynamicExecutionInfo& info) {
 void CPUCore6502::JSR(DynamicExecutionInfo& info) {
 	uint16_t address = m_State.PC + info.details.InstructionSize - 1;
 	Push16(address);
-	m_State.PC = info.Immediate();
+	m_State.PC = info.Address();
 }
 
 void CPUCore6502::LDX(DynamicExecutionInfo& info) {
