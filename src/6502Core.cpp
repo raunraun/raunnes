@@ -99,25 +99,25 @@ void CPUCore6502::Push16(uint16_t val) {
 	Push(low);
 }
 
-void CPUCore6502::JMP(DynamicExecutionInfo& info) {
+void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
 	m_State.PC = info.Address();
 }
 
-void CPUCore6502::JSR(DynamicExecutionInfo& info) {
+void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
 	uint16_t address = m_State.PC + info.details.InstructionSize - 1;
 	Push16(address);
 	m_State.PC = info.Address();
 }
 
-void CPUCore6502::LDX(DynamicExecutionInfo& info) {
+void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
 	m_State.X = info.Immediate();
 }
 
-void CPUCore6502::NOP(DynamicExecutionInfo& info) {
+void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
 	return;
 }
 
-void CPUCore6502::STX(DynamicExecutionInfo& info) {	
+void CPUCore6502::STX(const DynamicExecutionInfo& info) {
 	m_Memory.Write(info.Address(), m_State.X);
 }
 

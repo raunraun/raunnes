@@ -55,7 +55,7 @@ public:
 	struct InstructionDetails;
 	struct DynamicExecutionInfo;
 
-	typedef void (CPUCore6502::* ExecutionDelegate)(CPUCore6502::DynamicExecutionInfo&);
+	typedef void (CPUCore6502::* ExecutionDelegate)(const CPUCore6502::DynamicExecutionInfo&);
 
 	struct InstructionDetails {
 		uint32_t AddresingMode;
@@ -108,11 +108,11 @@ public:
 	void Push(uint8_t val);
 	void Push16(uint16_t val);
 
-	void JMP(DynamicExecutionInfo& info);
-	void JSR(DynamicExecutionInfo& info);
-	void LDX(DynamicExecutionInfo& info);
-	void NOP(DynamicExecutionInfo& info);
-	void STX(DynamicExecutionInfo& info);
+	void JMP(const DynamicExecutionInfo& info);
+	void JSR(const DynamicExecutionInfo& info);
+	void LDX(const DynamicExecutionInfo& info);
+	void NOP(const DynamicExecutionInfo& info);
+	void STX(const DynamicExecutionInfo& info);
 
 public:
 	CPUCore6502(const CPUCore6502&) = delete;
