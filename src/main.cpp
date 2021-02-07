@@ -39,6 +39,9 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         std::cout << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.X;
         std::cout << std::setw(28 - 8) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeImplied:
+        std::cout << std::setw(28) << std::setfill(' ');
+        break;
     default:
         std::cout << "!!!!";
         std::cout << std::setw(28 - 4) << std::setfill(' ');

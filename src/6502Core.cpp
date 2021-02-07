@@ -113,6 +113,10 @@ void CPUCore6502::LDX(DynamicExecutionInfo& info) {
 	m_State.X = info.Immediate();
 }
 
+void CPUCore6502::NOP(DynamicExecutionInfo& info) {
+	return;
+}
+
 void CPUCore6502::STX(DynamicExecutionInfo& info) {	
 	m_Memory.Write(info.Address(), m_State.X);
 }

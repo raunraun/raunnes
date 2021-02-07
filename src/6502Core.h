@@ -111,6 +111,7 @@ public:
 	void JMP(DynamicExecutionInfo& info);
 	void JSR(DynamicExecutionInfo& info);
 	void LDX(DynamicExecutionInfo& info);
+	void NOP(DynamicExecutionInfo& info);
 	void STX(DynamicExecutionInfo& info);
 
 public:
