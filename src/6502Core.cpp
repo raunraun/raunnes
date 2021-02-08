@@ -122,6 +122,10 @@ void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
 	}
 }
 
+void CPUCore6502::CLC(const DynamicExecutionInfo& info) {
+	m_State.C = 0;
+}
+
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
 	m_State.PC = info.Address();
 }

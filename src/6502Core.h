@@ -112,6 +112,7 @@ public:
 	void SetN(uint8_t val);
 
 	void BCS(const DynamicExecutionInfo& info);
+	void CLC(const DynamicExecutionInfo& info);
 	void JMP(const DynamicExecutionInfo& info);
 	void JSR(const DynamicExecutionInfo& info);
 	void LDX(const DynamicExecutionInfo& info);
