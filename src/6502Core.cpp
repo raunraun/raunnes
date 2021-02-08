@@ -107,6 +107,21 @@ void CPUCore6502::SetN(uint8_t val) {
 	m_State.N = val >> 7;
 }
 
+void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
+	if (m_State.C) {
+		m_Cycles += 1;
+
+		uint16_t currentPage = m_State.PC / 256;
+		m_State.PC += info.Immediate();
+
+		uint16_t nextPage = m_State.PC / 256;
+
+		if (currentPage != nextPage) {
+			m_Cycles += info.details.PageCrossCycleCost;
+		}
+	}
+}
+
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
 	m_State.PC = info.Address();
 }

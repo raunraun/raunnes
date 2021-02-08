@@ -42,6 +42,10 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     case raunnes::CPUCore6502::AddressingModeImplied:
         std::cout << std::setw(28) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeRelative:
+        std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << state.PC + details.Immediate();
+        std::cout << std::setw(28 - 5) << std::setfill(' ');
+        break;
     default:
         std::cout << "!!!!";
         std::cout << std::setw(28 - 4) << std::setfill(' ');
@@ -95,7 +99,7 @@ int main(int argc, char** argv) {
         raunnes::CPUCore6502 cpu(mem);
         cpu.InstallPreExecutionCallBack(log);
 
-        for (int c = 0; c < 10; c++) {
+        for (int c = 0; c < 20; c++) {
             cpu.Execute();
         }
     }
