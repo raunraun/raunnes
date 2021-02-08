@@ -99,6 +99,14 @@ void CPUCore6502::Push16(uint16_t val) {
 	Push(low);
 }
 
+void CPUCore6502::SetZ(uint8_t val) {
+	m_State.Z = val == 0;
+}
+
+void CPUCore6502::SetN(uint8_t val) {
+	m_State.N = val >> 7;
+}
+
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
 	m_State.PC = info.Address();
 }
@@ -111,10 +119,15 @@ void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
 	m_State.X = info.Immediate();
+	SetZ(m_State.X);
+	SetN(m_State.X);
 }
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
 	return;
+}
+void CPUCore6502::SEC(const DynamicExecutionInfo& info) {
+	m_State.C = 1;
 }
 
 void CPUCore6502::STX(const DynamicExecutionInfo& info) {

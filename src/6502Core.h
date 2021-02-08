@@ -108,10 +108,14 @@ public:
 	void Push(uint8_t val);
 	void Push16(uint16_t val);
 
+	void SetZ(uint8_t val);
+	void SetN(uint8_t val);
+
 	void JMP(const DynamicExecutionInfo& info);
 	void JSR(const DynamicExecutionInfo& info);
 	void LDX(const DynamicExecutionInfo& info);
 	void NOP(const DynamicExecutionInfo& info);
+	void SEC(const DynamicExecutionInfo& info);
 	void STX(const DynamicExecutionInfo& info);
 
 public:
