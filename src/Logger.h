@@ -7,8 +7,8 @@ namespace raunnes {
 class Logger {
 
 public:
-	Logger();
-	~Logger();
+    Logger();
+    ~Logger();
 
     void LogCurrentState(
         uint16_t Address,
