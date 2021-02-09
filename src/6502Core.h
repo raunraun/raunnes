@@ -113,6 +113,8 @@ public:
 
     void AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost);
 
+    void Unimplemented(const DynamicExecutionInfo& info);
+
     void BCC(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);

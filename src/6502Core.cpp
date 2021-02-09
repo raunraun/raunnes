@@ -1,4 +1,5 @@
 #include "6502Core.h"
+#include <cassert>
 #include <cstdint>
 #include <functional>
 
@@ -116,6 +117,10 @@ void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageC
     if (currentPage != nextPage) {
         m_Cycles += pageCrossCost;
     }
+}
+
+void CPUCore6502::Unimplemented(const DynamicExecutionInfo& info) {
+    assert(0);
 }
 
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
