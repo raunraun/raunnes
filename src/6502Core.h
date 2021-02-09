@@ -111,6 +111,9 @@ public:
     void SetZ(uint8_t val);
     void SetN(uint8_t val);
 
+    void AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost);
+
+    void BCC(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);

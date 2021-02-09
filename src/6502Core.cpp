@@ -107,18 +107,34 @@ void CPUCore6502::SetN(uint8_t val) {
     m_State.N = val >> 7;
 }
 
+void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost) {
+    uint16_t currentPage = oldPC / 256;
+    uint16_t nextPage = newPC / 256;
+
+    m_Cycles += 1;
+
+    if (currentPage != nextPage) {
+        m_Cycles += pageCrossCost;
+    }
+}
+
+void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
+    if (m_State.C == 0) {
+        uint16_t newPC = m_State.PC + info.Immediate();
+
+        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+    
+        m_State.PC = newPC;
+    }
+}
+
 void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
     if (m_State.C) {
-        m_Cycles += 1;
+        uint16_t newPC = m_State.PC + info.Immediate();
 
-        uint16_t currentPage = m_State.PC / 256;
-        m_State.PC += info.Immediate();
+        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
 
-        uint16_t nextPage = m_State.PC / 256;
-
-        if (currentPage != nextPage) {
-            m_Cycles += info.details.PageCrossCycleCost;
-        }
+        m_State.PC = newPC;
     }
 }
 

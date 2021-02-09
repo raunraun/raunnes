@@ -43,7 +43,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         std::cout << std::setw(28) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeRelative:
-        std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << state.PC + details.Immediate();
+        std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (state.PC + details.Immediate() + (uint8_t)info.InstructionSize);
         std::cout << std::setw(28 - 5) << std::setfill(' ');
         break;
     default:
