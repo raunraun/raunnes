@@ -101,6 +101,22 @@ void CPUCore6502::Push16(uint16_t val) {
     Push(low);
 }
 
+uint8_t CPUCore6502::Pop() {
+    m_State.SP += 1;
+    uint8_t val = m_Memory.Read(0x100 | m_State.SP);
+
+    return val;
+}
+
+uint16_t CPUCore6502::Pop16() {
+    uint16_t low = Pop();
+    uint16_t high = Pop();
+
+    uint16_t val = high << 8 | low;
+
+    return val;
+}
+
 void CPUCore6502::SetZ(uint8_t val) {
     m_State.Z = val == 0;
 }
@@ -211,7 +227,7 @@ void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
-    uint16_t address = m_State.PC + info.details.InstructionSize - 1;
+    uint16_t address = m_State.PC - 1;
     Push16(address);
     m_State.PC = info.Address();
 }
@@ -235,6 +251,13 @@ void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
     return;
 }
+
+void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
+    uint16_t newPC = Pop16() + 1;
+
+    m_State.PC = newPC;
+}
+
 void CPUCore6502::SEC(const DynamicExecutionInfo& info) {
     m_State.C = 1;
 }

@@ -95,7 +95,7 @@
 2,3,4,1,"EOR", &CPUCore6502::Unimplemented,
 2,3,7,0,"LSR", &CPUCore6502::Unimplemented,
 2,0,7,0,"SRE", &CPUCore6502::Unimplemented,
-6,1,6,0,"RTS", &CPUCore6502::Unimplemented,
+6,1,6,0,"RTS", &CPUCore6502::RTS,
 7,2,6,0,"ADC", &CPUCore6502::Unimplemented,
 6,0,2,0,"KIL", &CPUCore6502::Unimplemented,
 7,0,8,0,"RRA", &CPUCore6502::Unimplemented,

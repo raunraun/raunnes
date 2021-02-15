@@ -107,6 +107,8 @@ public:
 
     void Push(uint8_t val);
     void Push16(uint16_t val);
+    uint8_t Pop();
+    uint16_t Pop16();
 
     void SetZ(uint8_t val);
     void SetN(uint8_t val);
@@ -129,6 +131,7 @@ public:
     void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
+    void RTS(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
     void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
