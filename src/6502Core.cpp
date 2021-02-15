@@ -133,6 +133,16 @@ void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
     }
 }
 
+void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
+    if (m_State.C) {
+        uint16_t newPC = m_State.PC + info.Immediate();
+
+        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+
+        m_State.PC = newPC;
+    }
+}
+
 void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
     if (m_State.Z == 1) {
         uint16_t newPC = m_State.PC + info.Immediate();
@@ -143,8 +153,8 @@ void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
     }
 }
 
-void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
-    if (m_State.C) {
+void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
+    if (m_State.Z == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
         AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);

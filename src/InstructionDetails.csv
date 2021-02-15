@@ -207,7 +207,7 @@
 1,3,4,0,"CMP", &CPUCore6502::Unimplemented,
 1,3,6,0,"DEC", &CPUCore6502::Unimplemented,
 1,0,6,0,"DCP", &CPUCore6502::Unimplemented,
-10,2,2,1,"BNE", &CPUCore6502::Unimplemented,
+10,2,2,1,"BNE", &CPUCore6502::BNE,
 9,2,5,1,"CMP", &CPUCore6502::Unimplemented,
 6,0,2,0,"KIL", &CPUCore6502::Unimplemented,
 9,0,8,0,"DCP", &CPUCore6502::Unimplemented,
