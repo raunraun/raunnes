@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
         raunnes::CPUCore6502 cpu(mem);
         cpu.InstallPreExecutionCallBack(log);
 
-        for (int c = 0; c < 20; c++) {
+        for (int c = 0; c < 40; c++) {
             cpu.Execute();
         }
     }

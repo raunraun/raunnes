@@ -157,6 +157,16 @@ void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
     m_State.PC = info.Address();
 }
 
+void CPUCore6502::LDA(const DynamicExecutionInfo& info) {
+    if (info.details.AddresingMode == AddressingModeImmediate) {
+        m_State.A = info.Immediate();
+    }
+    else {
+        assert(0);
+    }
+    SetZ(m_State.A);
+    SetN(m_State.A);
+}
 void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
     m_State.X = info.Immediate();
     SetZ(m_State.X);

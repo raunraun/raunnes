@@ -120,6 +120,7 @@ public:
     void CLC(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
     void JSR(const DynamicExecutionInfo& info);
+    void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
