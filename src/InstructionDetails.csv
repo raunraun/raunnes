@@ -111,7 +111,7 @@
 1,3,4,0,"ADC", &CPUCore6502::Unimplemented,
 1,3,6,0,"ROR", &CPUCore6502::Unimplemented,
 1,0,6,0,"RRA", &CPUCore6502::Unimplemented,
-10,2,2,1,"BVS", &CPUCore6502::Unimplemented,
+10,2,2,1,"BVS", &CPUCore6502::BVS,
 9,2,5,1,"ADC", &CPUCore6502::Unimplemented,
 6,0,2,0,"KIL", &CPUCore6502::Unimplemented,
 9,0,8,0,"RRA", &CPUCore6502::Unimplemented,
