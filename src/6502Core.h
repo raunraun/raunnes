@@ -93,7 +93,7 @@ public:
         uint8_t Immediate() const { return InstructionBytes[1]; }
     };
 
-    typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State&, const uint64_t cycles);
+    typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State&, const MemoryMap&, const uint64_t cycles);
 
 public:
     CPUCore6502(MemoryMap& mem);
@@ -118,6 +118,7 @@ public:
     void BCC(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
     void BEQ(const DynamicExecutionInfo& info);
+    void BIT(const DynamicExecutionInfo& info);
     void BNE(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);

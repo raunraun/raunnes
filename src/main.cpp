@@ -8,6 +8,7 @@
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::CPUCore6502::DynamicExecutionInfo& details,
     const raunnes::CPUCore6502::CPUCore6502State& state,
+    const raunnes::MemoryMap& map,
     const uint64_t cycles) {
 
     std::cout << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << state.PC;
@@ -36,7 +37,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     case raunnes::CPUCore6502::AddressingModeZeroPage:
         std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << details.Address();
         std::cout << " = ";
-        std::cout << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.X;
+        std::cout << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(details.Address());
         std::cout << std::setw(28 - 8) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeImplied:

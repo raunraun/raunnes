@@ -26,7 +26,7 @@ MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize) {
 MemoryMap::~MemoryMap() {
 }
 
-uint16_t MemoryMap::Read16(uint16_t address) {
+uint16_t MemoryMap::Read16(uint16_t address) const {
     if (((size_t)address)+1 < m_Bytes.size()) {
         uint16_t low = m_Bytes[address];
         uint16_t high = m_Bytes[((size_t)address) + 1];
@@ -36,7 +36,7 @@ uint16_t MemoryMap::Read16(uint16_t address) {
     return 0;
 }
     
-uint8_t MemoryMap::Read(uint16_t address) {
+uint8_t MemoryMap::Read(uint16_t address) const {
     if (address < m_Bytes.size()) {
         return m_Bytes[address];
     }

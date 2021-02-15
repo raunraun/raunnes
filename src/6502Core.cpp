@@ -78,6 +78,7 @@ void CPUCore6502::Execute() {
             details, 
             info, 
             m_State,
+            m_Memory,
             m_Cycles);
     }
 
@@ -151,6 +152,14 @@ void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
 
         m_State.PC = newPC;
     }
+}
+
+void CPUCore6502::BIT(const DynamicExecutionInfo& info) {
+    uint8_t m = m_Memory.Read(info.Address());
+
+    m_State.Z = (m_State.A & m) == 0;
+    m_State.V = (m & 0x40 >> 6) == 1;
+    m_State.N = (m >> 7) == 1;
 }
 
 void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
