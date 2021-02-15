@@ -116,6 +116,7 @@ public:
     void Unimplemented(const DynamicExecutionInfo& info);
 
     void BCC(const DynamicExecutionInfo& info);
+    void BEQ(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
