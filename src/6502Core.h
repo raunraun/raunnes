@@ -120,6 +120,7 @@ public:
     void BEQ(const DynamicExecutionInfo& info);
     void BIT(const DynamicExecutionInfo& info);
     void BNE(const DynamicExecutionInfo& info);
+    void BVC(const DynamicExecutionInfo& info);
     void BVS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);

@@ -172,6 +172,16 @@ void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
     }
 }
 
+void CPUCore6502::BVC(const DynamicExecutionInfo& info) {
+    if (m_State.V == 0) {
+        uint16_t newPC = m_State.PC + info.Immediate();
+
+        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+
+        m_State.PC = newPC;
+    }
+}
+
 void CPUCore6502::BVS(const DynamicExecutionInfo& info) {
     if (m_State.V == 1) {
         uint16_t newPC = m_State.PC + info.Immediate();
