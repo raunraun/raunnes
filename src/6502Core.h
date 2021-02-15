@@ -126,6 +126,7 @@ public:
     void LDX(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
+    void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
 
 public:
