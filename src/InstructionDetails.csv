@@ -103,7 +103,7 @@
 11,2,3,0,"ADC", &CPUCore6502::Unimplemented,
 11,2,5,0,"ROR", &CPUCore6502::Unimplemented,
 11,0,5,0,"RRA", &CPUCore6502::Unimplemented,
-6,1,4,0,"PLA", &CPUCore6502::Unimplemented,
+6,1,4,0,"PLA", &CPUCore6502::PLA,
 5,2,2,0,"ADC", &CPUCore6502::Unimplemented,
 4,1,2,0,"ROR", &CPUCore6502::Unimplemented,
 5,0,2,0,"ARR", &CPUCore6502::Unimplemented,
