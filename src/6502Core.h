@@ -133,6 +133,8 @@ public:
     void NOP(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
+    void SEI(const DynamicExecutionInfo& info);
+    void SED(const DynamicExecutionInfo& info);
     void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
 

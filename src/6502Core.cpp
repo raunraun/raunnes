@@ -262,6 +262,14 @@ void CPUCore6502::SEC(const DynamicExecutionInfo& info) {
     m_State.C = 1;
 }
 
+void CPUCore6502::SEI(const DynamicExecutionInfo& info) {
+    m_State.I = 1;
+}
+
+void CPUCore6502::SED(const DynamicExecutionInfo& info) {
+    m_State.D = 1;
+}
+
 void CPUCore6502::STA(const DynamicExecutionInfo& info) {
     m_Memory.Write(info.Address(), m_State.A);
 }
