@@ -252,6 +252,10 @@ void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
     return;
 }
 
+void CPUCore6502::PHP(const DynamicExecutionInfo& info) {
+    Push(m_State.S);
+}
+
 void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
     uint16_t newPC = Pop16() + 1;
 
