@@ -58,7 +58,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     std::cout << " ";
     std::cout << "Y:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.Y;
     std::cout << " ";
-    std::cout << "P:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.S;
+    std::cout << "P:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.P;
     std::cout << " ";
     std::cout << "SP:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.SP;
     std::cout << " ";

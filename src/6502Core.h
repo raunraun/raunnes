@@ -15,7 +15,7 @@ public:
         uint8_t Y;
 
         union {
-            uint8_t S;
+            uint8_t P;
             struct {
                 uint8_t C : 1;
                 uint8_t Z : 1;
@@ -32,7 +32,7 @@ public:
         uint16_t SP;
 
         void SetFlags(uint8_t Flag) {
-            S = Flag;
+            P = Flag;
         }
     };
 
