@@ -270,7 +270,8 @@ void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::PHP(const DynamicExecutionInfo& info) {
-    Push(m_State.S);
+    // B Flag is always pushed as set
+    Push(m_State.S | 0x10);
 }
 
 void CPUCore6502::PLA(const DynamicExecutionInfo& info) {
