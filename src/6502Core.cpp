@@ -117,12 +117,20 @@ uint16_t CPUCore6502::Pop16() {
     return val;
 }
 
-void CPUCore6502::SetZ(uint8_t val) {
-    m_State.Z = val == 0;
+void CPUCore6502::SetC(uint8_t val) {
+    m_State.C = val;
 }
 
 void CPUCore6502::SetN(uint8_t val) {
     m_State.N = val >> 7;
+}
+
+void CPUCore6502::SetZ(uint8_t val) {
+    m_State.Z = val == 0;
+}
+
+void CPUCore6502::SetZ(bool val) {
+    m_State.Z = val;
 }
 
 uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
@@ -237,6 +245,13 @@ void CPUCore6502::BVS(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::CLC(const DynamicExecutionInfo& info) {
     m_State.C = 0;
+}
+
+void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
+    uint8_t value = Value(info);
+
+    SetZ(m_State.A == value);
+    SetC(m_State.A >= value);
 }
 
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {

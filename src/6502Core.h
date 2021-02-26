@@ -110,8 +110,10 @@ public:
     uint8_t Pop();
     uint16_t Pop16();
 
-    void SetZ(uint8_t val);
+    void SetC(uint8_t val);
     void SetN(uint8_t val);
+    void SetZ(uint8_t val);
+    void SetZ(bool val);
 
     uint8_t Value(const DynamicExecutionInfo& info);
 
@@ -129,6 +131,7 @@ public:
     void BVC(const DynamicExecutionInfo& info);
     void BVS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
+    void CMP(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
     void JSR(const DynamicExecutionInfo& info);
     void LDA(const DynamicExecutionInfo& info);
