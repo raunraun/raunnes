@@ -199,7 +199,7 @@ void CPUCore6502::BIT(const DynamicExecutionInfo& info) {
     uint8_t m = m_Memory.Read(info.Address());
 
     m_State.Z = (m_State.A & m) == 0;
-    m_State.V = (m & 0x40 >> 6) == 1;
+    m_State.V = ((m & 0x40) >> 6) == 1;
     m_State.N = (m >> 7) == 1;
 }
 
