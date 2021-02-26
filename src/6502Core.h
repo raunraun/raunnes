@@ -113,10 +113,13 @@ public:
     void SetZ(uint8_t val);
     void SetN(uint8_t val);
 
+    uint8_t Value(const DynamicExecutionInfo& info);
+
     void AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost);
 
     void Unimplemented(const DynamicExecutionInfo& info);
 
+    void AND(const DynamicExecutionInfo& info);
     void BCC(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
     void BEQ(const DynamicExecutionInfo& info);

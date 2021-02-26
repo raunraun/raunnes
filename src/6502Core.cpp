@@ -125,6 +125,19 @@ void CPUCore6502::SetN(uint8_t val) {
     m_State.N = val >> 7;
 }
 
+uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
+    uint8_t val = 0;
+
+    if (info.details.AddresingMode == AddressingModeImmediate) {
+        val = info.Immediate();
+    }
+    else {
+        val = m_Memory.Read(info.Address());
+    }
+
+    return val;
+}
+
 void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost) {
     uint16_t currentPage = oldPC / 256;
     uint16_t nextPage = newPC / 256;
@@ -138,6 +151,10 @@ void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageC
 
 void CPUCore6502::Unimplemented(const DynamicExecutionInfo& info) {
     assert(0);
+}
+
+void CPUCore6502::AND(const DynamicExecutionInfo& info) {
+    m_State.A &= Value(info);
 }
 
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
@@ -258,6 +275,9 @@ void CPUCore6502::PHP(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::PLA(const DynamicExecutionInfo& info) {
     m_State.A = Pop();
+
+    SetZ(m_State.A);
+    SetN(m_State.A);
 }
 
 void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
