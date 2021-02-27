@@ -141,6 +141,7 @@ public:
     void PHA(const DynamicExecutionInfo& info);
     void PHP(const DynamicExecutionInfo& info);
     void PLA(const DynamicExecutionInfo& info);
+    void PLP(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
     void SEI(const DynamicExecutionInfo& info);

@@ -304,6 +304,13 @@ void CPUCore6502::PLA(const DynamicExecutionInfo& info) {
     SetN(m_State.A);
 }
 
+void CPUCore6502::PLP(const DynamicExecutionInfo& info) {
+    // Ignores bits 4, 5
+    // http://wiki.nesdev.com/w/index.php/Status_flags#I:_Interrupt_Disable
+    // http://visual6502.org/wiki/index.php?title=6502_BRK_and_B_bit
+    m_State.P = Pop() & 0xEF | 0x20;
+}
+
 void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
     uint16_t newPC = Pop16() + 1;
 
