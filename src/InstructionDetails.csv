@@ -215,7 +215,7 @@
 12,2,4,0,"CMP", &CPUCore6502::CMP,
 12,2,6,0,"DEC", &CPUCore6502::Unimplemented,
 12,0,6,0,"DCP", &CPUCore6502::Unimplemented,
-6,1,2,0,"CLD", &CPUCore6502::Unimplemented,
+6,1,2,0,"CLD", &CPUCore6502::CLD,
 3,3,4,1,"CMP", &CPUCore6502::CMP,
 6,1,2,0,"NOP", &CPUCore6502::NOP,
 3,0,7,0,"DCP", &CPUCore6502::Unimplemented,
