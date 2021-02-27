@@ -138,6 +138,7 @@ public:
     void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
+    void PHA(const DynamicExecutionInfo& info);
     void PHP(const DynamicExecutionInfo& info);
     void PLA(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
