@@ -203,6 +203,16 @@ void CPUCore6502::BIT(const DynamicExecutionInfo& info) {
     m_State.N = (m >> 7) == 1;
 }
 
+void CPUCore6502::BMI(const DynamicExecutionInfo& info) {
+    if (m_State.N == 1) {
+        uint16_t newPC = m_State.PC + info.Immediate();
+
+        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+
+        m_State.PC = newPC;
+    }
+}
+
 void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
     if (m_State.Z == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();

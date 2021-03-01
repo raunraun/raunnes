@@ -126,6 +126,7 @@ public:
     void BCS(const DynamicExecutionInfo& info);
     void BEQ(const DynamicExecutionInfo& info);
     void BIT(const DynamicExecutionInfo& info);
+    void BMI(const DynamicExecutionInfo& info);
     void BNE(const DynamicExecutionInfo& info);
     void BPL(const DynamicExecutionInfo& info);
     void BVC(const DynamicExecutionInfo& info);
