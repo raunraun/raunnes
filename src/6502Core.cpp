@@ -286,6 +286,7 @@ void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
 
     SetZ(A() == value);
     SetC(A() >= value);
+    SetN(A() - value);
 }
 
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {

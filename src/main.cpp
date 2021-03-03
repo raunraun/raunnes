@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 #include "6502Core.h"
 #include "MemoryMap.h"
@@ -11,62 +12,72 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::MemoryMap& map,
     const uint64_t cycles) {
 
-    std::cout << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << state.PC;
-    std::cout << "  ";
+    std::stringstream s;
+
+    s << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << state.PC;
+    s << "  ";
     
     unsigned i = 0;
     for (; i < info.InstructionSize; i++) {
-        std::cout << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.InstructionBytes[i] << " ";
+        s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.InstructionBytes[i] << " ";
     }
     for (; i < 3; i++) {
-        std::cout << "   ";
+        s << "   ";
     }
-    std::cout << " ";
-    std::cout << std::uppercase << info.Name;
-    std::cout << " ";
+    s << " ";
+    s << std::uppercase << info.Name;
+    s << " ";
 
     switch (info.AddresingMode) {
     case raunnes::CPUCore6502::AddressingModeAbsolute:
-        std::cout << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
-        std::cout <<std::setw(28 - 5) << std::setfill(' ');
+        s << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
+        s <<std::setw(28 - 5) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeImmediate:
-        std::cout << "#$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.Immediate();
-        std::cout << std::setw(28 - 4) << std::setfill(' ');
+        s << "#$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.Immediate();
+        s << std::setw(28 - 4) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeZeroPage:
-        std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << details.Address();
-        std::cout << " = ";
-        std::cout << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(details.Address());
-        std::cout << std::setw(28 - 8) << std::setfill(' ');
+        s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << details.Address();
+        s << " = ";
+        s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(details.Address());
+        s << std::setw(28 - 8) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeImplied:
-        std::cout << std::setw(28) << std::setfill(' ');
+        s << std::setw(28) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeRelative:
-        std::cout << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (state.PC + details.Immediate() + (uint8_t)info.InstructionSize);
-        std::cout << std::setw(28 - 5) << std::setfill(' ');
+        s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (state.PC + details.Immediate() + (uint8_t)info.InstructionSize);
+        s << std::setw(28 - 5) << std::setfill(' ');
         break;
     default:
-        std::cout << "!!!!";
-        std::cout << std::setw(28 - 4) << std::setfill(' ');
+        s << "!!!!";
+        s << std::setw(28 - 4) << std::setfill(' ');
     }
-    std::cout << "  ";
-    std::cout << "A:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.A;
-    std::cout << " ";
-    std::cout << "X:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.X;
-    std::cout << " ";
-    std::cout << "Y:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.Y;
-    std::cout << " ";
-    std::cout << "P:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.P;
-    std::cout << " ";
-    std::cout << "SP:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.SP;
-    std::cout << " ";
-    std::cout << "PPU:" << std::uppercase << std::setw(7) << std::setfill(' ');
-    std::cout << " ";
-    std::cout << "CYC:" << std::dec << cycles;
+    s << "  ";
+    s << "A:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.A;
+    s << " ";
+    s << "X:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.X;
+    s << " ";
+    s << "Y:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.Y;
+    s << " ";
+    s << "P:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.P;
+    s << " ";
+    s << "SP:" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)state.SP;
+    s << " ";
+    s << "PPU:" << std::uppercase << std::setw(7) << std::setfill(' ');
+    s << " ";
+    s << "CYC:" << std::dec << cycles;
 
-    std::cout << std::endl;
+    s << std::endl;
+
+    std::cout << s.str();
+
+    static std::fstream f("raunnes.log", std::ios::out);
+
+    if (f.good()) {
+        f << s.str();
+    }
 }
 
 int main(int argc, char** argv) {
