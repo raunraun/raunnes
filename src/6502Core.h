@@ -116,6 +116,10 @@ public:
     void SetZ(bool val);
 
     uint8_t& A();
+    uint8_t& X();
+    uint8_t& Y();
+    uint16_t& PC();
+    uint16_t& SP();
 
     uint8_t Value(const DynamicExecutionInfo& info);
 

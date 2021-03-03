@@ -35,9 +35,9 @@ void CPUCore6502::Reset() {
     m_State.PC = m_Memory.Read16(0xfffc);
     m_State.PC = 0xc000;
 
-    m_State.A = 0;
-    m_State.X = 0;
-    m_State.Y = 0;
+    A() = 0;
+    X() = 0;
+    Y() = 0;
 
     m_State.SetFlags(0x24);
 
@@ -137,6 +137,22 @@ uint8_t& CPUCore6502::A() {
     return m_State.A;
 }
 
+uint8_t& CPUCore6502::X() {
+    return m_State.X;
+}
+
+uint8_t& CPUCore6502::Y() {
+    return m_State.Y;
+}
+
+uint16_t& CPUCore6502::PC() {
+    return m_State.PC;
+}
+
+uint16_t& CPUCore6502::SP() {
+    return m_State.SP;
+}
+
 uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     uint8_t val = 0;
 
@@ -166,7 +182,7 @@ void CPUCore6502::Unimplemented(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::AND(const DynamicExecutionInfo& info) {
-    m_State.A &= Value(info);
+    A() &= Value(info);
 }
 
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
@@ -202,7 +218,7 @@ void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
 void CPUCore6502::BIT(const DynamicExecutionInfo& info) {
     uint8_t m = m_Memory.Read(info.Address());
 
-    m_State.Z = (m_State.A & m) == 0;
+    m_State.Z = (A() & m) == 0;
     m_State.V = ((m & 0x40) >> 6) == 1;
     m_State.N = (m >> 7) == 1;
 }
@@ -268,8 +284,8 @@ void CPUCore6502::CLD(const DynamicExecutionInfo& info) {
 void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
     uint8_t value = Value(info);
 
-    SetZ(m_State.A == value);
-    SetC(m_State.A >= value);
+    SetZ(A() == value);
+    SetC(A() >= value);
 }
 
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
@@ -284,18 +300,18 @@ void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::LDA(const DynamicExecutionInfo& info) {
     if (info.details.AddresingMode == AddressingModeImmediate) {
-        m_State.A = info.Immediate();
+        A() = info.Immediate();
     }
     else {
         assert(0);
     }
-    SetZ(m_State.A);
-    SetN(m_State.A);
+    SetZ(A());
+    SetN(A());
 }
 void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
-    m_State.X = info.Immediate();
-    SetZ(m_State.X);
-    SetN(m_State.X);
+    X() = info.Immediate();
+    SetZ(X());
+    SetN(X());
 }
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
@@ -312,7 +328,7 @@ void CPUCore6502::ORA(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::PHA(const DynamicExecutionInfo& info) {
-    Push(m_State.A);
+    Push(A());
 }
 
 void CPUCore6502::PHP(const DynamicExecutionInfo& info) {
@@ -321,10 +337,10 @@ void CPUCore6502::PHP(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::PLA(const DynamicExecutionInfo& info) {
-    m_State.A = Pop();
+    A() = Pop();
 
-    SetZ(m_State.A);
-    SetN(m_State.A);
+    SetZ(A());
+    SetN(A());
 }
 
 void CPUCore6502::PLP(const DynamicExecutionInfo& info) {
@@ -353,11 +369,11 @@ void CPUCore6502::SED(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::STA(const DynamicExecutionInfo& info) {
-    m_Memory.Write(info.Address(), m_State.A);
+    m_Memory.Write(info.Address(), A());
 }
 
 void CPUCore6502::STX(const DynamicExecutionInfo& info) {
-    m_Memory.Write(info.Address(), m_State.X);
+    m_Memory.Write(info.Address(), X());
 }
 
 
