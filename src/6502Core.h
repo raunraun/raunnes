@@ -115,6 +115,8 @@ public:
     void SetZ(uint8_t val);
     void SetZ(bool val);
 
+    uint8_t& A();
+
     uint8_t Value(const DynamicExecutionInfo& info);
 
     void AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost);
@@ -139,6 +141,7 @@ public:
     void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
+    void ORA(const DynamicExecutionInfo& info);
     void PHA(const DynamicExecutionInfo& info);
     void PHP(const DynamicExecutionInfo& info);
     void PLA(const DynamicExecutionInfo& info);

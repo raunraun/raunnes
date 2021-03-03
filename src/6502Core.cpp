@@ -133,6 +133,10 @@ void CPUCore6502::SetZ(bool val) {
     m_State.Z = val;
 }
 
+uint8_t& CPUCore6502::A() {
+    return m_State.A;
+}
+
 uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     uint8_t val = 0;
 
@@ -296,6 +300,15 @@ void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
     return;
+}
+
+void CPUCore6502::ORA(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info);
+
+    A() |= val;
+
+    SetZ(A());
+    SetN(A());
 }
 
 void CPUCore6502::PHA(const DynamicExecutionInfo& info) {
