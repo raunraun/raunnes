@@ -114,6 +114,7 @@ public:
     void SetN(uint8_t val);
     void SetZ(uint8_t val);
     void SetZ(bool val);
+    void SetV(bool val);
 
     uint8_t& A();
     uint8_t& X();
@@ -127,6 +128,7 @@ public:
 
     void Unimplemented(const DynamicExecutionInfo& info);
 
+    void ADC(const DynamicExecutionInfo& info);
     void AND(const DynamicExecutionInfo& info);
     void BCC(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
