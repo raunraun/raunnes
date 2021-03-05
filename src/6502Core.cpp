@@ -183,6 +183,9 @@ void CPUCore6502::Unimplemented(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::AND(const DynamicExecutionInfo& info) {
     A() &= Value(info);
+
+    SetZ(A());
+    SetN(A());
 }
 
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
