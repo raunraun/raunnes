@@ -139,6 +139,7 @@ public:
     void BVS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
     void CLD(const DynamicExecutionInfo& info);
+    void CLV(const DynamicExecutionInfo& info);
     void CMP(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
     void JSR(const DynamicExecutionInfo& info);

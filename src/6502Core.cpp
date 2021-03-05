@@ -281,6 +281,10 @@ void CPUCore6502::CLD(const DynamicExecutionInfo& info) {
     m_State.D = 0;
 }
 
+void CPUCore6502::CLV(const DynamicExecutionInfo& info) {
+    m_State.V = 0;
+}
+
 void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
     uint8_t value = Value(info);
 
