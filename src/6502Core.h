@@ -158,6 +158,7 @@ public:
     void PLA(const DynamicExecutionInfo& info);
     void PLP(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
+    void SBC(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
     void SEI(const DynamicExecutionInfo& info);
     void SED(const DynamicExecutionInfo& info);
