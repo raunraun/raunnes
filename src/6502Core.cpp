@@ -370,8 +370,8 @@ void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::LDY(const DynamicExecutionInfo& info) {
     Y() = Value(info);
-    SetZ(X());
-    SetN(X());
+    SetZ(Y());
+    SetN(Y());
 }
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
