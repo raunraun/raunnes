@@ -425,10 +425,10 @@ void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::SBC(const DynamicExecutionInfo& info) {
     uint8_t a = A();
-    uint8_t b = Value(info);
+    uint8_t b = ~Value(info);
     uint8_t c = m_State.C;
 
-    A() = a - b - (1 - c);
+    A() = a + b + c;
 
     SetC(A() < a);
     SetN(A());
