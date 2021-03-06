@@ -148,6 +148,7 @@ public:
     void JSR(const DynamicExecutionInfo& info);
     void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
+    void LDY(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
     void ORA(const DynamicExecutionInfo& info);
     void PHA(const DynamicExecutionInfo& info);
