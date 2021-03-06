@@ -231,7 +231,7 @@
 11,2,3,0,"SBC", &CPUCore6502::SBC,
 11,2,5,0,"INC", &CPUCore6502::Unimplemented,
 11,0,5,0,"ISC", &CPUCore6502::Unimplemented,
-6,1,2,0,"INX", &CPUCore6502::Unimplemented,
+6,1,2,0,"INX", &CPUCore6502::INX,
 5,2,2,0,"SBC", &CPUCore6502::SBC,
 6,1,2,0,"NOP", &CPUCore6502::NOP,
 5,0,2,0,"SBC", &CPUCore6502::SBC,

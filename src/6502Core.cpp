@@ -342,6 +342,13 @@ void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
     SetN(A());
 }
 
+void CPUCore6502::INX(const DynamicExecutionInfo& info) {
+    X() += 1;
+
+    SetZ(X());
+    SetN(X());
+}
+
 void CPUCore6502::INY(const DynamicExecutionInfo& info) {
     Y() += 1;
 
