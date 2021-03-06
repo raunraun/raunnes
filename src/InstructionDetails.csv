@@ -135,7 +135,7 @@
 11,2,3,0,"STA", &CPUCore6502::STA,
 11,2,3,0,"STX", &CPUCore6502::STX,
 11,0,3,0,"SAX", &CPUCore6502::Unimplemented,
-6,1,2,0,"DEY", &CPUCore6502::Unimplemented,
+6,1,2,0,"DEY", &CPUCore6502::DEY,
 5,0,2,0,"NOP", &CPUCore6502::NOP,
 6,1,2,0,"TXA", &CPUCore6502::Unimplemented,
 5,0,2,0,"XAA", &CPUCore6502::Unimplemented,

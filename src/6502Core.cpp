@@ -333,6 +333,13 @@ void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
     SetN(A() - value);
 }
 
+void CPUCore6502::DEY(const DynamicExecutionInfo& info) {
+    Y() -= 1;
+
+    SetZ(Y());
+    SetN(Y());
+}
+
 void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
     uint8_t val = Value(info);
 

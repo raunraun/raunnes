@@ -145,6 +145,7 @@ public:
     void CPX(const DynamicExecutionInfo& info);
     void CPY(const DynamicExecutionInfo& info);
     void CMP(const DynamicExecutionInfo& info);
+    void DEY(const DynamicExecutionInfo& info);
     void EOR(const DynamicExecutionInfo& info);
     void INX(const DynamicExecutionInfo& info);
     void INY(const DynamicExecutionInfo& info);
