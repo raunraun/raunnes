@@ -352,8 +352,8 @@ void CPUCore6502::INX(const DynamicExecutionInfo& info) {
 void CPUCore6502::INY(const DynamicExecutionInfo& info) {
     Y() += 1;
 
-    SetZ(A());
-    SetN(A());
+    SetZ(Y());
+    SetN(Y());
 }
 
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
