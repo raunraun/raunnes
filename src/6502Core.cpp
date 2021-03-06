@@ -142,7 +142,6 @@ void CPUCore6502::SetZN(uint8_t val) {
     SetN(val);
 }
 
-
 uint8_t& CPUCore6502::A() {
     return m_State.A;
 }
@@ -211,8 +210,7 @@ void CPUCore6502::ADC(const DynamicExecutionInfo& info) {
 void CPUCore6502::AND(const DynamicExecutionInfo& info) {
     A() &= Value(info);
 
-    SetZ(A());
-    SetN(A());
+    SetZN(A());
 }
 
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
@@ -342,15 +340,13 @@ void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
 void CPUCore6502::DEX(const DynamicExecutionInfo& info) {
     X() -= 1;
 
-    SetZ(X());
-    SetN(X());
+    SetZN(X());
 }
 
 void CPUCore6502::DEY(const DynamicExecutionInfo& info) {
     Y() -= 1;
 
-    SetZ(Y());
-    SetN(Y());
+    SetZN(Y());
 }
 
 void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
@@ -358,22 +354,19 @@ void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
 
     A() ^= val;
 
-    SetZ(A());
-    SetN(A());
+    SetZN(A());
 }
 
 void CPUCore6502::INX(const DynamicExecutionInfo& info) {
     X() += 1;
 
-    SetZ(X());
-    SetN(X());
+    SetZN(X());
 }
 
 void CPUCore6502::INY(const DynamicExecutionInfo& info) {
     Y() += 1;
 
-    SetZ(Y());
-    SetN(Y());
+    SetZN(Y());
 }
 
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
@@ -393,19 +386,19 @@ void CPUCore6502::LDA(const DynamicExecutionInfo& info) {
     else {
         assert(0);
     }
-    SetZ(A());
-    SetN(A());
+
+    SetZN(A());
 }
 void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
     X() = info.Immediate();
-    SetZ(X());
-    SetN(X());
+
+    SetZN(X());
 }
 
 void CPUCore6502::LDY(const DynamicExecutionInfo& info) {
     Y() = Value(info);
-    SetZ(Y());
-    SetN(Y());
+
+    SetZN(Y());
 }
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
@@ -417,8 +410,7 @@ void CPUCore6502::ORA(const DynamicExecutionInfo& info) {
 
     A() |= val;
 
-    SetZ(A());
-    SetN(A());
+    SetZN(A());
 }
 
 void CPUCore6502::PHA(const DynamicExecutionInfo& info) {
@@ -433,8 +425,7 @@ void CPUCore6502::PHP(const DynamicExecutionInfo& info) {
 void CPUCore6502::PLA(const DynamicExecutionInfo& info) {
     A() = Pop();
 
-    SetZ(A());
-    SetN(A());
+    SetZN(A());
 }
 
 void CPUCore6502::PLP(const DynamicExecutionInfo& info) {
