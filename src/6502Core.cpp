@@ -342,6 +342,13 @@ void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
     SetN(A());
 }
 
+void CPUCore6502::INY(const DynamicExecutionInfo& info) {
+    Y() += 1;
+
+    SetZ(A());
+    SetN(A());
+}
+
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
     m_State.PC = info.Address();
 }

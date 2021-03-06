@@ -199,7 +199,7 @@
 11,2,3,0,"CMP", &CPUCore6502::CMP,
 11,2,5,0,"DEC", &CPUCore6502::Unimplemented,
 11,0,5,0,"DCP", &CPUCore6502::Unimplemented,
-6,1,2,0,"INY", &CPUCore6502::Unimplemented,
+6,1,2,0,"INY", &CPUCore6502::INY,
 5,2,2,0,"CMP", &CPUCore6502::CMP,
 6,1,2,0,"DEX", &CPUCore6502::Unimplemented,
 5,0,2,0,"AXS", &CPUCore6502::Unimplemented,
