@@ -488,10 +488,22 @@ void CPUCore6502::STX(const DynamicExecutionInfo& info) {
     m_Memory.Write(info.Address(), X());
 }
 
+void CPUCore6502::TAX(const DynamicExecutionInfo& info) {
+    X() = A();
+
+    SetZN(X());
+}
+
 void CPUCore6502::TAY(const DynamicExecutionInfo& info) {
     Y() = A();
 
     SetZN(Y());
+}
+
+void CPUCore6502::TYA(const DynamicExecutionInfo& info) {
+    A() = Y();
+
+    SetZN(A());
 }
 
 }

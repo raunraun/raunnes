@@ -170,7 +170,9 @@ public:
     void SED(const DynamicExecutionInfo& info);
     void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
+    void TAX(const DynamicExecutionInfo& info);
     void TAY(const DynamicExecutionInfo& info);
+    void TYA(const DynamicExecutionInfo& info);
 
 public:
     CPUCore6502(const CPUCore6502&) = delete;
