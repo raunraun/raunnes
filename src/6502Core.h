@@ -142,6 +142,7 @@ public:
     void CLC(const DynamicExecutionInfo& info);
     void CLD(const DynamicExecutionInfo& info);
     void CLV(const DynamicExecutionInfo& info);
+    void CPY(const DynamicExecutionInfo& info);
     void CMP(const DynamicExecutionInfo& info);
     void EOR(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
