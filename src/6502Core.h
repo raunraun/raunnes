@@ -116,6 +116,8 @@ public:
     void SetZ(bool val);
     void SetV(bool val);
 
+    void SetZN(uint8_t);
+
     uint8_t& A();
     uint8_t& X();
     uint8_t& Y();
@@ -168,6 +170,7 @@ public:
     void SED(const DynamicExecutionInfo& info);
     void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
+    void TAY(const DynamicExecutionInfo& info);
 
 public:
     CPUCore6502(const CPUCore6502&) = delete;

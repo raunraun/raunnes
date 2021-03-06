@@ -167,7 +167,7 @@
 11,2,3,0,"LDA", &CPUCore6502::LDA,
 11,2,3,0,"LDX", &CPUCore6502::Unimplemented,
 11,0,3,0,"LAX", &CPUCore6502::Unimplemented,
-6,1,2,0,"TAY", &CPUCore6502::Unimplemented,
+6,1,2,0,"TAY", &CPUCore6502::TAY,
 5,2,2,0,"LDA", &CPUCore6502::LDA,
 6,1,2,0,"TAX", &CPUCore6502::Unimplemented,
 5,0,2,0,"LAX", &CPUCore6502::Unimplemented,

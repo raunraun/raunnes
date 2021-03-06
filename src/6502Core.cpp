@@ -137,6 +137,12 @@ void CPUCore6502::SetV(bool val) {
     m_State.V = val;
 }
 
+void CPUCore6502::SetZN(uint8_t val) {
+    SetZ(val);
+    SetN(val);
+}
+
+
 uint8_t& CPUCore6502::A() {
     return m_State.A;
 }
@@ -482,5 +488,10 @@ void CPUCore6502::STX(const DynamicExecutionInfo& info) {
     m_Memory.Write(info.Address(), X());
 }
 
+void CPUCore6502::TAY(const DynamicExecutionInfo& info) {
+    Y() = A();
+
+    SetZN(Y());
+}
 
 }
