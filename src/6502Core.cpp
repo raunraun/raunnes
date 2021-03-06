@@ -309,6 +309,14 @@ void CPUCore6502::CLV(const DynamicExecutionInfo& info) {
     m_State.V = 0;
 }
 
+void CPUCore6502::CPX(const DynamicExecutionInfo& info) {
+    uint8_t value = Value(info);
+
+    SetZ(X() == value);
+    SetC(X() >= value);
+    SetN(X() - value);
+}
+
 void CPUCore6502::CPY(const DynamicExecutionInfo& info) {
     uint8_t value = Value(info);
 
