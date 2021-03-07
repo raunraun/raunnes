@@ -503,6 +503,10 @@ void CPUCore6502::TXA(const DynamicExecutionInfo& info) {
     SetZN(A());
 }
 
+void CPUCore6502::TXS(const DynamicExecutionInfo& info) {
+    SP() = X();
+}
+
 void CPUCore6502::TYA(const DynamicExecutionInfo& info) {
     A() = Y();
 

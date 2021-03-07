@@ -174,6 +174,7 @@ public:
     void TAY(const DynamicExecutionInfo& info);
     void TSX(const DynamicExecutionInfo& info);
     void TXA(const DynamicExecutionInfo& info);
+    void TXS(const DynamicExecutionInfo& info);
     void TYA(const DynamicExecutionInfo& info);
 
 public:
