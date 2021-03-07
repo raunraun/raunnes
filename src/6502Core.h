@@ -126,6 +126,7 @@ public:
     uint16_t& SP();
 
     uint8_t Value(const DynamicExecutionInfo& info);
+    void ValueUpdate(const DynamicExecutionInfo& info, uint8_t value);
 
     void AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost);
 
@@ -158,6 +159,7 @@ public:
     void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
     void LDY(const DynamicExecutionInfo& info);
+    void LSR(const DynamicExecutionInfo& info);
     void NOP(const DynamicExecutionInfo& info);
     void ORA(const DynamicExecutionInfo& info);
     void PHA(const DynamicExecutionInfo& info);

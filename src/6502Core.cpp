@@ -172,11 +172,26 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     if (info.details.AddresingMode == AddressingModeImmediate) {
         val = info.Immediate();
     }
+    else if (info.details.AddresingMode == AddressingModeAccumulator) {
+        val = A();
+    }
     else {
         val = m_Memory.Read(info.Address());
     }
 
     return val;
+}
+
+void CPUCore6502::ValueUpdate(const DynamicExecutionInfo& info, uint8_t value) {
+    if (info.details.AddresingMode == AddressingModeImmediate) {
+        assert(0);
+    }
+    else if (info.details.AddresingMode == AddressingModeAccumulator) {
+        A() = value;
+    }
+    else {
+        m_Memory.Write(info.Address(), value);
+    }
 }
 
 void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost) {
@@ -398,6 +413,16 @@ void CPUCore6502::LDY(const DynamicExecutionInfo& info) {
     Y() = Value(info);
 
     SetZN(Y());
+}
+
+void CPUCore6502::LSR(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info);
+    uint8_t newval = val >> 1;
+    ValueUpdate(info, newval);
+
+    SetZN(newval);
+    SetC(val & 0x1);
+    
 }
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
