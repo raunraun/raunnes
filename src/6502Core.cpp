@@ -491,6 +491,12 @@ void CPUCore6502::TAY(const DynamicExecutionInfo& info) {
     SetZN(Y());
 }
 
+void CPUCore6502::TSX(const DynamicExecutionInfo& info) {
+    X() = SP();
+
+    SetZN(X());
+}
+
 void CPUCore6502::TXA(const DynamicExecutionInfo& info) {
     A() = X();
 

@@ -172,6 +172,7 @@ public:
     void STX(const DynamicExecutionInfo& info);
     void TAX(const DynamicExecutionInfo& info);
     void TAY(const DynamicExecutionInfo& info);
+    void TSX(const DynamicExecutionInfo& info);
     void TXA(const DynamicExecutionInfo& info);
     void TYA(const DynamicExecutionInfo& info);
 

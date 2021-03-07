@@ -185,7 +185,7 @@
 13,0,4,0,"LAX", &CPUCore6502::Unimplemented,
 6,1,2,0,"CLV", &CPUCore6502::CLV,
 3,3,4,1,"LDA", &CPUCore6502::LDA,
-6,1,2,0,"TSX", &CPUCore6502::Unimplemented,
+6,1,2,0,"TSX", &CPUCore6502::TSX,
 3,0,4,1,"LAS", &CPUCore6502::Unimplemented,
 2,3,4,1,"LDY", &CPUCore6502::LDY,
 2,3,4,1,"LDA", &CPUCore6502::LDA,
