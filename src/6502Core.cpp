@@ -390,7 +390,7 @@ void CPUCore6502::LDA(const DynamicExecutionInfo& info) {
     SetZN(A());
 }
 void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
-    X() = info.Immediate();
+    X() = Value(info);
 
     SetZN(X());
 }
