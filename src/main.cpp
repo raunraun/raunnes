@@ -30,8 +30,23 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 
     switch (info.AddresingMode) {
     case raunnes::CPUCore6502::AddressingModeAbsolute:
+        if (std::strncmp(info.Name, "JMP", 3) == 0 ||
+            std::strncmp(info.Name, "JSR", 3) == 0) {
+            s << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
+            s << std::setw(28 - 5) << std::setfill(' ');
+        }
+        else {
+            s << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
+            s << " = ";
+            s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(details.Address());
+            s << std::setw(28 - 10) << std::setfill(' ');
+        }
+        break;
+    case raunnes::CPUCore6502::AddressingModeAbsoluteX:
         s << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
-        s <<std::setw(28 - 5) << std::setfill(' ');
+        s << " = ";
+        s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(details.Address());
+        s << std::setw(28 - 8) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeImmediate:
         s << "#$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.Immediate();
