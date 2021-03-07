@@ -441,7 +441,7 @@ void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::RTI(const DynamicExecutionInfo& info) {
-    P() = Pop();
+    P() = Pop() & 0xEF | 0x20;
     PC() = Pop16();
 }
 
