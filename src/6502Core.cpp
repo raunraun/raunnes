@@ -380,12 +380,7 @@ void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::LDA(const DynamicExecutionInfo& info) {
-    if (info.details.AddresingMode == AddressingModeImmediate) {
-        A() = info.Immediate();
-    }
-    else {
-        assert(0);
-    }
+    A() = Value(info);
 
     SetZN(A());
 }
