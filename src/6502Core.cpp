@@ -422,7 +422,6 @@ void CPUCore6502::LSR(const DynamicExecutionInfo& info) {
 
     SetZN(newval);
     SetC(val & 0x1);
-    
 }
 
 void CPUCore6502::NOP(const DynamicExecutionInfo& info) {
