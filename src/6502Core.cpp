@@ -146,6 +146,10 @@ uint8_t& CPUCore6502::A() {
     return m_State.A;
 }
 
+uint8_t& CPUCore6502::P() {
+    return m_State.P;
+}
+
 uint8_t& CPUCore6502::X() {
     return m_State.X;
 }
@@ -434,6 +438,11 @@ void CPUCore6502::RTS(const DynamicExecutionInfo& info) {
     uint16_t newPC = Pop16() + 1;
 
     m_State.PC = newPC;
+}
+
+void CPUCore6502::RTI(const DynamicExecutionInfo& info) {
+    P() = Pop();
+    PC() = Pop16();
 }
 
 void CPUCore6502::SBC(const DynamicExecutionInfo& info) {

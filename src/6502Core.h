@@ -119,6 +119,7 @@ public:
     void SetZN(uint8_t);
 
     uint8_t& A();
+    uint8_t& P();
     uint8_t& X();
     uint8_t& Y();
     uint16_t& PC();
@@ -163,6 +164,7 @@ public:
     void PHP(const DynamicExecutionInfo& info);
     void PLA(const DynamicExecutionInfo& info);
     void PLP(const DynamicExecutionInfo& info);
+    void RTI(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
     void SBC(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);

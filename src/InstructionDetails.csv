@@ -63,7 +63,7 @@
 2,3,4,1,"AND", &CPUCore6502::AND,
 2,3,7,0,"ROL", &CPUCore6502::Unimplemented,
 2,0,7,0,"RLA", &CPUCore6502::Unimplemented,
-6,1,6,0,"RTI", &CPUCore6502::Unimplemented,
+6,1,6,0,"RTI", &CPUCore6502::RTI,
 7,2,6,0,"EOR", &CPUCore6502::EOR,
 6,0,2,0,"KIL", &CPUCore6502::Unimplemented,
 7,0,8,0,"SRE", &CPUCore6502::Unimplemented,
