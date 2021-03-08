@@ -166,14 +166,11 @@ uint16_t& CPUCore6502::SP() {
     return m_State.SP;
 }
 
-uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
-    uint8_t val = 0;
+uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
+    uint16_t val = 0;
 
-    if (info.details.AddresingMode == AddressingModeImmediate) {
-        val = info.Immediate();
-    }
-    else if (info.details.AddresingMode == AddressingModeAccumulator) {
-        val = A();
+    if (info.details.AddresingMode == AddressingModeAbsolute) {
+        val = info.Address();
     }
     else if (info.details.AddresingMode == AddressingModeIndexedIndirect) {
         uint16_t addr1 = ((uint16_t)X() + (uint16_t)info.Immediate()) & 0xFF;
@@ -182,10 +179,36 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
         uint16_t addr2_high = m_Memory.Read((addr1 + 1) & 0xFF);
         uint16_t addr2 = (addr2_high << 8) | addr2_low;
 
-        val = m_Memory.Read(addr2);
+        val = addr2;
+    }
+    else if (info.details.AddresingMode == AddressingModeZeroPage) {
+        val = info.Address();
+    }
+
+    return val;
+}
+
+uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
+    uint8_t val = 0;
+
+    if (info.details.AddresingMode == AddressingModeAbsolute) {
+        val = m_Memory.Read(Address(info));
+    }
+    else if (info.details.AddresingMode == AddressingModeImmediate) {
+        val = info.Immediate();
+    }
+    else if (info.details.AddresingMode == AddressingModeAccumulator) {
+        val = A();
+    }
+    else if (info.details.AddresingMode == AddressingModeIndexedIndirect) {
+        val = m_Memory.Read(Address(info));
+    }
+    else if (info.details.AddresingMode == AddressingModeZeroPage) {
+        val = m_Memory.Read(Address(info));
     }
     else {
-        val = m_Memory.Read(info.Address());
+        val = m_Memory.Read(Address(info));
+        assert(0);
     }
 
     return val;
@@ -539,11 +562,11 @@ void CPUCore6502::SED(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::STA(const DynamicExecutionInfo& info) {
-    m_Memory.Write(info.Address(), A());
+    m_Memory.Write(Address(info), A());
 }
 
 void CPUCore6502::STX(const DynamicExecutionInfo& info) {
-    m_Memory.Write(info.Address(), X());
+    m_Memory.Write(Address(info), X());
 }
 
 void CPUCore6502::TAX(const DynamicExecutionInfo& info) {

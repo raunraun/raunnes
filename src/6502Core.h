@@ -125,6 +125,8 @@ public:
     uint16_t& PC();
     uint16_t& SP();
 
+    uint16_t Address(const DynamicExecutionInfo& info);
+
     uint8_t Value(const DynamicExecutionInfo& info);
     void ValueUpdate(const DynamicExecutionInfo& info, uint8_t value);
 
