@@ -468,6 +468,16 @@ void CPUCore6502::PLP(const DynamicExecutionInfo& info) {
     m_State.P = Pop() & 0xEF | 0x20;
 }
 
+void CPUCore6502::ROL(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info);
+    uint8_t newval = (val << 1) | m_State.C;
+
+    ValueUpdate(info, newval);
+
+    SetZN(newval);
+    SetC(val >> 7);
+}
+
 void CPUCore6502::ROR(const DynamicExecutionInfo& info) {
     uint8_t val = Value(info);
     uint8_t newval = (val >> 1) | (m_State. C << 7);
