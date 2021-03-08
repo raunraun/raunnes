@@ -175,6 +175,15 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     else if (info.details.AddresingMode == AddressingModeAccumulator) {
         val = A();
     }
+    else if (info.details.AddresingMode == AddressingModeIndexedIndirect) {
+        uint16_t addr1 = ((uint16_t)X() + (uint16_t)info.Immediate()) & 0xFF;
+
+        uint16_t addr2_low = m_Memory.Read(addr1);
+        uint16_t addr2_high = m_Memory.Read((addr1 + 1) & 0xFF);
+        uint16_t addr2 = (addr2_high << 8) | addr2_low;
+
+        val = m_Memory.Read(addr2);
+    }
     else {
         val = m_Memory.Read(info.Address());
     }

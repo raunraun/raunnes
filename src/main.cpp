@@ -65,6 +65,21 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     case raunnes::CPUCore6502::AddressingModeImplied:
         s << std::setw(28) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeIndexedIndirect:
+    {
+        uint16_t addr1 = (state.X + details.Immediate()) & 0xFF;
+
+        uint16_t addr2_low = map.Read(addr1);
+        uint16_t addr2_high = map.Read((addr1 + 1) & 0xFF);
+        uint16_t addr2 = (addr2_high << 8) | addr2_low;
+
+        s << "($" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.Immediate() << ",X)";
+        s << " @ " << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << addr1;
+        s << " = " << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << addr2;
+        s << " = " << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(addr2);
+        s << std::setw(28 - 24) << std::setfill(' ');
+    }
+        break;
     case raunnes::CPUCore6502::AddressingModeRelative:
         s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (state.PC + details.Immediate() + (uint8_t)info.InstructionSize);
         s << std::setw(28 - 5) << std::setfill(' ');
