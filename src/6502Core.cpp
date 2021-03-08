@@ -232,6 +232,16 @@ void CPUCore6502::AND(const DynamicExecutionInfo& info) {
     SetZN(A());
 }
 
+
+void CPUCore6502::ASL(const DynamicExecutionInfo& info) {
+    int8_t val = Value(info);
+    int8_t newval = val << 1;
+    ValueUpdate(info, newval);
+
+    SetZN(newval);
+    SetC(((uint8_t)val) >> 7);
+}
+
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
     if (m_State.C == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();

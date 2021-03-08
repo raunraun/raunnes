@@ -134,6 +134,7 @@ public:
 
     void ADC(const DynamicExecutionInfo& info);
     void AND(const DynamicExecutionInfo& info);
+    void ASL(const DynamicExecutionInfo& info);
     void BCC(const DynamicExecutionInfo& info);
     void BCS(const DynamicExecutionInfo& info);
     void BEQ(const DynamicExecutionInfo& info);
