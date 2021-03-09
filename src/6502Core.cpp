@@ -181,6 +181,15 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
 
         val = addr2;
     }
+    else if (info.details.AddresingMode == AddressingModeIndirectIndexed) {
+        uint16_t addr1 = info.Immediate();
+        
+        uint16_t addr2_low = m_Memory.Read(addr1);
+        uint16_t addr2_high = m_Memory.Read((addr1 + 1) & 0xFF);
+        uint16_t addr2 = ((addr2_high << 8) | addr2_low) + Y();
+
+        val = addr2;
+    }
     else if (info.details.AddresingMode == AddressingModeZeroPage) {
         val = info.Address();
     }
@@ -201,6 +210,9 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
         val = A();
     }
     else if (info.details.AddresingMode == AddressingModeIndexedIndirect) {
+        val = m_Memory.Read(Address(info));
+    }
+    else if (info.details.AddresingMode == AddressingModeIndirectIndexed) {
         val = m_Memory.Read(Address(info));
     }
     else if (info.details.AddresingMode == AddressingModeZeroPage) {
