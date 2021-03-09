@@ -19,7 +19,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     
     unsigned i = 0;
     for (; i < info.InstructionSize; i++) {
-        s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.InstructionBytes[i] << " ";
+        s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)details.m_InstructionBytes[i] << " ";
     }
     for (; i < 3; i++) {
         s << "   ";

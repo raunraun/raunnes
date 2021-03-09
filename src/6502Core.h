@@ -68,29 +68,20 @@ public:
     };
     struct DynamicExecutionInfo {
         DynamicExecutionInfo(InstructionDetails& d, uint8_t o, uint16_t pc) : 
-            details(d), PC(pc) {
-            InstructionBytes[0] = o; InstructionBytes[1] = 0; InstructionBytes[2] = 0;
+            m_Details(d), m_Address(0), m_PageCrossed(false) {
+            m_InstructionBytes[0] = 0; m_InstructionBytes[1] = 0; m_InstructionBytes[2] = 0;
         }
-        InstructionDetails& details;
-        uint16_t PC;
-        uint8_t InstructionBytes[3];
+        InstructionDetails& m_Details;
+        uint8_t m_InstructionBytes[3];
+        uint16_t m_Address;
+        bool m_PageCrossed;
 
-        uint8_t Opcode() const { return InstructionBytes[0]; }
-        uint16_t Address() const {
-            switch (details.AddresingMode) {
-            case(AddressingModeAbsolute):
-                return ((uint16_t*)&InstructionBytes[1])[0];
-                break;
-            case(AddressingModeZeroPage):
-                return InstructionBytes[1];
-                break;
-            default:
-                return 0xffff;
-            };
-        }
-
-        uint16_t AddressZeropage() const { return InstructionBytes[1]; }
-        uint8_t Immediate() const { return InstructionBytes[1]; }
+        uint16_t Address() const { return m_Address; }
+        uint16_t AddressAbsolute() const { return ((uint16_t*)&m_InstructionBytes[1])[0]; }
+        uint16_t AddressZeropage() const { return m_InstructionBytes[1]; }
+        InstructionDetails& Details() const { return m_Details; }
+        uint8_t Opcode() const { return m_InstructionBytes[0]; }
+        uint8_t Immediate() const { return m_InstructionBytes[1]; }
     };
 
     typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State&, const MemoryMap&, const uint64_t cycles);
@@ -126,6 +117,9 @@ public:
     uint16_t& SP();
 
     uint16_t Address(const DynamicExecutionInfo& info);
+    bool PageCrossed(const DynamicExecutionInfo& info);
+    static bool SamePage(uint16_t a, uint16_t b);
+
 
     uint8_t Value(const DynamicExecutionInfo& info);
     void ValueUpdate(const DynamicExecutionInfo& info, uint8_t value);

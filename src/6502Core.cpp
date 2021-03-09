@@ -51,27 +51,11 @@ void CPUCore6502::Execute() {
 
 
     for (uint32_t i = 1; i < details.InstructionSize; i++) {
-        info.InstructionBytes[i] = m_Memory.Read(m_State.PC + i);
+        info.m_InstructionBytes[i] = m_Memory.Read(m_State.PC + i);
     }
 
-    switch (details.AddresingMode) {
-    case(AddressingModeAbsolute):
-        break;
-    case(AddressingModeAbsoluteX): break;
-    case(AddressingModeAbsoluteY): break;
-    case(AddressingModeAccumulator): break;
-    case(AddressingModeImmediate): break;
-        break;
-    case(AddressingModeImplied): break;
-    case(AddressingModeIndexedIndirect): break;
-    case(AddressingModeIndirect): break;
-    case(AddressingModeIndirectIndexed): break;
-    case(AddressingModeRelative): break;
-    case(AddressingModeZeroPage): 
-        break;
-    case(AddressingModeZeroPageX): break;
-    case(AddressingModeZeroPageY): break;
-    };
+    info.m_Address = Address(info);
+    info.m_PageCrossed = PageCrossed(info);
 
     if (m_PreexecutionCallBack != nullptr) {
         std::invoke(m_PreexecutionCallBack, 
@@ -83,6 +67,9 @@ void CPUCore6502::Execute() {
     }
 
     m_Cycles += details.CycleCount;
+    if (info.m_PageCrossed) {
+        m_Cycles += details.PageCrossCycleCost;
+    }
     m_State.PC += details.InstructionSize;
 
     std::invoke(details.Delegate, this, info);
@@ -169,10 +156,10 @@ uint16_t& CPUCore6502::SP() {
 uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
     uint16_t val = 0;
 
-    if (info.details.AddresingMode == AddressingModeAbsolute) {
-        val = info.Address();
+    if (info.Details().AddresingMode == AddressingModeAbsolute) {
+        val = info.AddressAbsolute();
     }
-    else if (info.details.AddresingMode == AddressingModeIndexedIndirect) {
+    else if (info.Details().AddresingMode == AddressingModeIndexedIndirect) {
         uint16_t addr1 = ((uint16_t)X() + (uint16_t)info.Immediate()) & 0xFF;
 
         uint16_t addr2_low = m_Memory.Read(addr1);
@@ -181,7 +168,7 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
 
         val = addr2;
     }
-    else if (info.details.AddresingMode == AddressingModeIndirectIndexed) {
+    else if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
         uint16_t addr1 = info.Immediate();
         
         uint16_t addr2_low = m_Memory.Read(addr1);
@@ -190,32 +177,50 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
 
         val = addr2;
     }
-    else if (info.details.AddresingMode == AddressingModeZeroPage) {
-        val = info.Address();
+    else if (info.Details().AddresingMode == AddressingModeZeroPage) {
+        val = info.AddressZeropage();
     }
 
     return val;
 }
 
+bool CPUCore6502::PageCrossed(const DynamicExecutionInfo& info) {
+    bool val = false;
+
+    if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
+        uint16_t addr = Address(info);
+        val = !SamePage(addr, addr - Y());
+    }
+
+    return val;
+}
+
+bool CPUCore6502::SamePage(uint16_t a, uint16_t b) {
+    uint16_t currentPage = a / 256;
+    uint16_t nextPage = b / 256;
+
+    return a == b;
+}
+
 uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     uint8_t val = 0;
 
-    if (info.details.AddresingMode == AddressingModeAbsolute) {
+    if (info.Details().AddresingMode == AddressingModeAbsolute) {
         val = m_Memory.Read(Address(info));
     }
-    else if (info.details.AddresingMode == AddressingModeImmediate) {
+    else if (info.Details().AddresingMode == AddressingModeImmediate) {
         val = info.Immediate();
     }
-    else if (info.details.AddresingMode == AddressingModeAccumulator) {
+    else if (info.Details().AddresingMode == AddressingModeAccumulator) {
         val = A();
     }
-    else if (info.details.AddresingMode == AddressingModeIndexedIndirect) {
+    else if (info.Details().AddresingMode == AddressingModeIndexedIndirect) {
         val = m_Memory.Read(Address(info));
     }
-    else if (info.details.AddresingMode == AddressingModeIndirectIndexed) {
+    else if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
         val = m_Memory.Read(Address(info));
     }
-    else if (info.details.AddresingMode == AddressingModeZeroPage) {
+    else if (info.Details().AddresingMode == AddressingModeZeroPage) {
         val = m_Memory.Read(Address(info));
     }
     else {
@@ -227,10 +232,10 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::ValueUpdate(const DynamicExecutionInfo& info, uint8_t value) {
-    if (info.details.AddresingMode == AddressingModeImmediate) {
+    if (info.Details().AddresingMode == AddressingModeImmediate) {
         assert(0);
     }
-    else if (info.details.AddresingMode == AddressingModeAccumulator) {
+    else if (info.Details().AddresingMode == AddressingModeAccumulator) {
         A() = value;
     }
     else {
@@ -290,7 +295,7 @@ void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
     if (m_State.C == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
     
         m_State.PC = newPC;
     }
@@ -300,7 +305,7 @@ void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
     if (m_State.C) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
@@ -310,7 +315,7 @@ void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
     if (m_State.Z == 1) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
@@ -328,7 +333,7 @@ void CPUCore6502::BMI(const DynamicExecutionInfo& info) {
     if (m_State.N == 1) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
@@ -338,7 +343,7 @@ void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
     if (m_State.Z == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
@@ -348,7 +353,7 @@ void CPUCore6502::BPL(const DynamicExecutionInfo& info) {
     if (m_State.N == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
@@ -358,7 +363,7 @@ void CPUCore6502::BVC(const DynamicExecutionInfo& info) {
     if (m_State.V == 0) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
@@ -368,7 +373,7 @@ void CPUCore6502::BVS(const DynamicExecutionInfo& info) {
     if (m_State.V == 1) {
         uint16_t newPC = m_State.PC + info.Immediate();
 
-        AddBranchCycles(m_State.PC, newPC, info.details.PageCrossCycleCost);
+        AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
         m_State.PC = newPC;
     }
