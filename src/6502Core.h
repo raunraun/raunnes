@@ -155,6 +155,7 @@ public:
     void DEX(const DynamicExecutionInfo& info);
     void DEY(const DynamicExecutionInfo& info);
     void EOR(const DynamicExecutionInfo& info);
+    void INC(const DynamicExecutionInfo& info);
     void INX(const DynamicExecutionInfo& info);
     void INY(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);

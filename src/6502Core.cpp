@@ -418,6 +418,14 @@ void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
     SetZN(A());
 }
 
+void CPUCore6502::INC(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info) + 1;
+
+    ValueUpdate(info, val);
+
+    SetZN(val);
+}
+
 void CPUCore6502::INX(const DynamicExecutionInfo& info) {
     X() += 1;
 
