@@ -67,9 +67,9 @@ public:
 
     };
     struct DynamicExecutionInfo {
-        DynamicExecutionInfo(InstructionDetails& d, uint8_t o, uint16_t pc) : 
+        DynamicExecutionInfo(InstructionDetails& d, uint8_t o, uint16_t pc) :
             m_Details(d), m_Address(0), m_PageCrossed(false) {
-            m_InstructionBytes[0] = 0; m_InstructionBytes[1] = 0; m_InstructionBytes[2] = 0;
+            m_InstructionBytes[0] = o; m_InstructionBytes[1] = 0; m_InstructionBytes[2] = 0;
         }
         InstructionDetails& m_Details;
         uint8_t m_InstructionBytes[3];
@@ -80,8 +80,9 @@ public:
         uint16_t AddressAbsolute() const { return ((uint16_t*)&m_InstructionBytes[1])[0]; }
         uint16_t AddressZeropage() const { return m_InstructionBytes[1]; }
         InstructionDetails& Details() const { return m_Details; }
-        uint8_t Opcode() const { return m_InstructionBytes[0]; }
         uint8_t Immediate() const { return m_InstructionBytes[1]; }
+        const uint8_t* InstructionBytes() const { return m_InstructionBytes; }
+        uint8_t Opcode() const { return m_InstructionBytes[0]; }
     };
 
     typedef void(*ExecutionCallBack)(const InstructionDetails&, const DynamicExecutionInfo&, const CPUCore6502State&, const MemoryMap&, const uint64_t cycles);
