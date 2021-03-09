@@ -569,6 +569,10 @@ void CPUCore6502::STX(const DynamicExecutionInfo& info) {
     m_Memory.Write(Address(info), X());
 }
 
+void CPUCore6502::STY(const DynamicExecutionInfo& info) {
+    m_Memory.Write(Address(info), Y());
+}
+
 void CPUCore6502::TAX(const DynamicExecutionInfo& info) {
     X() = A();
 

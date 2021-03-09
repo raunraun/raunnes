@@ -179,6 +179,7 @@ public:
     void SED(const DynamicExecutionInfo& info);
     void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
+    void STY(const DynamicExecutionInfo& info);
     void TAX(const DynamicExecutionInfo& info);
     void TAY(const DynamicExecutionInfo& info);
     void TSX(const DynamicExecutionInfo& info);
