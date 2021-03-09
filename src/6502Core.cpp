@@ -398,6 +398,14 @@ void CPUCore6502::CMP(const DynamicExecutionInfo& info) {
     SetN(A() - value);
 }
 
+void CPUCore6502::DEC(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info) - 1;
+
+    ValueUpdate(info, val);
+
+    SetZN(val);
+}
+
 void CPUCore6502::DEX(const DynamicExecutionInfo& info) {
     X() -= 1;
 

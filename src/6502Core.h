@@ -152,6 +152,7 @@ public:
     void CPX(const DynamicExecutionInfo& info);
     void CPY(const DynamicExecutionInfo& info);
     void CMP(const DynamicExecutionInfo& info);
+    void DEC(const DynamicExecutionInfo& info);
     void DEX(const DynamicExecutionInfo& info);
     void DEY(const DynamicExecutionInfo& info);
     void EOR(const DynamicExecutionInfo& info);
