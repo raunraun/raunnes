@@ -168,6 +168,12 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
 
         val = addr2;
     }
+    else if (info.Details().AddresingMode == AddressingModeIndirect) {
+        uint16_t addr1 = info.AddressIndirect();
+        uint16_t addr2 = m_Memory.Read16(addr1);
+
+        val = addr2;
+    }
     else if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
         uint16_t addr1 = info.Immediate();
         

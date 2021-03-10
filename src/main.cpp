@@ -80,6 +80,16 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         s << std::setw(28 - 24) << std::setfill(' ');
     }
         break;
+    case raunnes::CPUCore6502::AddressingModeIndirect:
+    {
+        uint16_t addr1 = details.AddressIndirect();
+        uint16_t addr2 = map.Read16(addr1);
+
+        s << "($" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << addr1 << ")";
+        s << " = " << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << addr2;
+        s << std::setw(28 - 14) << std::setfill(' ');
+    }
+    break;
     case raunnes::CPUCore6502::AddressingModeIndirectIndexed:
     {
         uint16_t addr1 = details.Immediate();

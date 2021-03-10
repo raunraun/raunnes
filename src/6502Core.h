@@ -78,6 +78,7 @@ public:
 
         uint16_t Address() const { return m_Address; }
         uint16_t AddressAbsolute() const { return ((uint16_t*)&m_InstructionBytes[1])[0]; }
+        uint16_t AddressIndirect() const { return ((uint16_t*)&m_InstructionBytes[1])[0]; }
         uint16_t AddressZeropage() const { return m_InstructionBytes[1]; }
         InstructionDetails& Details() const { return m_Details; }
         uint8_t Immediate() const { return m_InstructionBytes[1]; }
