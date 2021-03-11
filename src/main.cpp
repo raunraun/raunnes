@@ -134,6 +134,17 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         s << std::setw(28 - 15) << std::setfill(' ');
     }
         break;
+    case raunnes::CPUCore6502::AddressingModeZeroPageY:
+    {
+        uint8_t addr1 = (uint32_t)details.Immediate();
+        uint8_t addr2 = addr1 + state.Y;
+
+        s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)addr1 << ",Y";
+        s << " @ " << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)addr2;
+        s << " = " << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(addr2);
+        s << std::setw(28 - 15) << std::setfill(' ');
+    }
+    break;
     default:
         s << "!!!!";
         s << std::setw(28 - 4) << std::setfill(' ');
