@@ -193,8 +193,8 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
         val = info.AddressZeropage();
     }
     else if (info.Details().AddresingMode == AddressingModeZeroPageX) {
-        uint16_t addr = info.Immediate();
-        uint16_t addr2 = addr + X();
+        uint8_t addr = info.Immediate();
+        uint8_t addr2 = addr + X();
         
         val = addr2;
     }
