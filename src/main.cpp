@@ -82,8 +82,14 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         break;
     case raunnes::CPUCore6502::AddressingModeIndirect:
     {
-        uint16_t addr1 = details.AddressIndirect();
-        uint16_t addr2 = map.Read16(addr1);
+        uint16_t addr1 = details.AddressIndirect(); 
+        
+        uint16_t addr_low = addr1;
+        uint16_t addr_high = (addr_low & 0xFF00) | ((addr_low + 1) & 0x00FF);
+        uint16_t low = map.Read(addr_low);
+        uint16_t high = map.Read(addr_high);
+
+        uint16_t addr2 = (high << 8) | low;
 
         s << "($" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << addr1 << ")";
         s << " = " << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << addr2;

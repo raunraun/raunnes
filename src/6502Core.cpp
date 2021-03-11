@@ -32,7 +32,7 @@ static  CPUCore6502::InstructionDetails g_InstructionDetails[256] = {
 
 void CPUCore6502::Reset() {
     m_State.SP = 0xFD;
-    m_State.PC = m_Memory.Read16(0xfffc);
+    m_State.PC = Read16(0xfffc);
     m_State.PC = 0xc000;
 
     A() = 0;
@@ -45,13 +45,13 @@ void CPUCore6502::Reset() {
 }
 
 void CPUCore6502::Execute() {
-    uint8_t opcode = m_Memory.Read(m_State.PC);
+    uint8_t opcode = Read(m_State.PC);
     InstructionDetails details = g_InstructionDetails[opcode];
     DynamicExecutionInfo info(details, opcode, m_State.PC);
 
 
     for (uint32_t i = 1; i < details.InstructionSize; i++) {
-        info.m_InstructionBytes[i] = m_Memory.Read(m_State.PC + i);
+        info.m_InstructionBytes[i] = Read(m_State.PC + i);
     }
 
     info.m_Address = Address(info);
@@ -76,7 +76,7 @@ void CPUCore6502::Execute() {
 }
 
 void CPUCore6502::Push(uint8_t val) {
-    m_Memory.Write(0x100 | m_State.SP, val);
+    Write(0x100 | m_State.SP, val);
     m_State.SP -= 1;
 }
 
@@ -90,7 +90,7 @@ void CPUCore6502::Push16(uint16_t val) {
 
 uint8_t CPUCore6502::Pop() {
     m_State.SP += 1;
-    uint8_t val = m_Memory.Read(0x100 | m_State.SP);
+    uint8_t val = Read(0x100 | m_State.SP);
 
     return val;
 }
@@ -162,23 +162,23 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
     else if (info.Details().AddresingMode == AddressingModeIndexedIndirect) {
         uint16_t addr1 = ((uint16_t)X() + (uint16_t)info.Immediate()) & 0xFF;
 
-        uint16_t addr2_low = m_Memory.Read(addr1);
-        uint16_t addr2_high = m_Memory.Read((addr1 + 1) & 0xFF);
+        uint16_t addr2_low = Read(addr1);
+        uint16_t addr2_high = Read((addr1 + 1) & 0xFF);
         uint16_t addr2 = (addr2_high << 8) | addr2_low;
 
         val = addr2;
     }
     else if (info.Details().AddresingMode == AddressingModeIndirect) {
         uint16_t addr1 = info.AddressIndirect();
-        uint16_t addr2 = m_Memory.Read16(addr1);
+        uint16_t addr2 = Read16Bug(addr1);
 
         val = addr2;
     }
     else if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
         uint16_t addr1 = info.Immediate();
         
-        uint16_t addr2_low = m_Memory.Read(addr1);
-        uint16_t addr2_high = m_Memory.Read((addr1 + 1) & 0xFF);
+        uint16_t addr2_low = Read(addr1);
+        uint16_t addr2_high = Read((addr1 + 1) & 0xFF);
         uint16_t addr2 = ((addr2_high << 8) | addr2_low) + Y();
 
         val = addr2;
@@ -208,11 +208,39 @@ bool CPUCore6502::SamePage(uint16_t a, uint16_t b) {
     return a == b;
 }
 
+uint8_t CPUCore6502::Read(uint16_t address) {
+    return m_Memory.Read(address);
+}
+uint8_t CPUCore6502::Read16(uint16_t address) {
+    uint16_t low = m_Memory.Read(address);
+    uint16_t high = m_Memory.Read(address+1);
+
+    return (high << 8) | low;
+}
+uint16_t CPUCore6502::Read16Bug(uint16_t address) {
+    // https://everything2.com/title/6502+indirect+JMP+bug
+    uint16_t addr_low = address;
+    uint16_t addr_high = (addr_low & 0xFF00) | ((addr_low + 1) & 0x00FF);
+
+    uint16_t low = m_Memory.Read(addr_low);
+    uint16_t high = m_Memory.Read(addr_high);
+
+    return (high << 8) | low;
+}
+
+void CPUCore6502::Write(uint16_t address, uint8_t value) {
+    m_Memory.Write(address, value);
+}
+void CPUCore6502::Write16(uint16_t address, uint16_t value) {
+    m_Memory.Write(address, (uint8_t)value);
+    m_Memory.Write(address, (uint8_t)(value >> 8));
+}
+
 uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     uint8_t val = 0;
 
     if (info.Details().AddresingMode == AddressingModeAbsolute) {
-        val = m_Memory.Read(Address(info));
+        val = Read(Address(info));
     }
     else if (info.Details().AddresingMode == AddressingModeImmediate) {
         val = info.Immediate();
@@ -221,16 +249,16 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
         val = A();
     }
     else if (info.Details().AddresingMode == AddressingModeIndexedIndirect) {
-        val = m_Memory.Read(Address(info));
+        val = Read(Address(info));
     }
     else if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
-        val = m_Memory.Read(Address(info));
+        val = Read(Address(info));
     }
     else if (info.Details().AddresingMode == AddressingModeZeroPage) {
-        val = m_Memory.Read(Address(info));
+        val = Read(Address(info));
     }
     else {
-        val = m_Memory.Read(Address(info));
+        val = Read(Address(info));
         assert(0);
     }
 
@@ -245,7 +273,7 @@ void CPUCore6502::ValueUpdate(const DynamicExecutionInfo& info, uint8_t value) {
         A() = value;
     }
     else {
-        m_Memory.Write(info.Address(), value);
+        Write(info.Address(), value);
     }
 }
 
@@ -328,7 +356,7 @@ void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::BIT(const DynamicExecutionInfo& info) {
-    uint8_t m = m_Memory.Read(info.Address());
+    uint8_t m = Read(info.Address());
 
     m_State.Z = (A() & m) == 0;
     m_State.V = ((m & 0x40) >> 6) == 1;
@@ -601,15 +629,15 @@ void CPUCore6502::SED(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::STA(const DynamicExecutionInfo& info) {
-    m_Memory.Write(Address(info), A());
+    Write(Address(info), A());
 }
 
 void CPUCore6502::STX(const DynamicExecutionInfo& info) {
-    m_Memory.Write(Address(info), X());
+    Write(Address(info), X());
 }
 
 void CPUCore6502::STY(const DynamicExecutionInfo& info) {
-    m_Memory.Write(Address(info), Y());
+    Write(Address(info), Y());
 }
 
 void CPUCore6502::TAX(const DynamicExecutionInfo& info) {

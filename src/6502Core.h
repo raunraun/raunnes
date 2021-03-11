@@ -122,6 +122,12 @@ public:
     bool PageCrossed(const DynamicExecutionInfo& info);
     static bool SamePage(uint16_t a, uint16_t b);
 
+    uint8_t Read(uint16_t address);
+    uint8_t Read16(uint16_t address);
+    uint16_t Read16Bug(uint16_t address);
+
+    void Write(uint16_t address, uint8_t value);
+    void Write16(uint16_t address, uint16_t value);
 
     uint8_t Value(const DynamicExecutionInfo& info);
     void ValueUpdate(const DynamicExecutionInfo& info, uint8_t value);
