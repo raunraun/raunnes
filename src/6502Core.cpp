@@ -159,11 +159,17 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
     if (info.Details().AddresingMode == AddressingModeAbsolute) {
         val = info.AddressAbsolute();
     }
+    else if (info.Details().AddresingMode == AddressingModeAbsoluteX) {
+        uint16_t addr1 = info.AddressAbsolute();
+        uint16_t addr2 = addr1 + X();
+
+        val = addr2;
+    }
     else if (info.Details().AddresingMode == AddressingModeAbsoluteY) {
         uint16_t addr1 = info.AddressAbsolute();
         uint16_t addr2 = addr1 + Y();
 
-        return addr2;
+        val = addr2;
     }
     else if (info.Details().AddresingMode == AddressingModeIndexedIndirect) {
         uint16_t addr1 = ((uint16_t)X() + (uint16_t)info.Immediate()) & 0xFF;
@@ -264,6 +270,9 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
     if (info.Details().AddresingMode == AddressingModeAbsolute) {
         val = Read(Address(info));
     }
+    else if (info.Details().AddresingMode == AddressingModeAbsoluteX) {
+        val = Read(Address(info));
+    }
     else if (info.Details().AddresingMode == AddressingModeAbsoluteY) {
         val = Read(Address(info));
     }
@@ -283,6 +292,9 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
         val = Read(Address(info));
     }
     else if (info.Details().AddresingMode == AddressingModeZeroPageX) {
+        val = Read(Address(info));
+    }
+    else if (info.Details().AddresingMode == AddressingModeZeroPageY) {
         val = Read(Address(info));
     }
     else {

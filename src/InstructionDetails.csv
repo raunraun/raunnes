@@ -149,7 +149,7 @@
 9,0,6,0,"AHX", &CPUCore6502::Unimplemented,
 12,2,4,0,"STY", &CPUCore6502::STY,
 12,2,4,0,"STA", &CPUCore6502::STA,
-13,2,4,0,"STX", &CPUCore6502::Unimplemented,
+13,2,4,0,"STX", &CPUCore6502::STX,
 13,0,4,0,"SAX", &CPUCore6502::Unimplemented,
 6,1,2,0,"TYA", &CPUCore6502::TYA,
 3,3,5,0,"STA", &CPUCore6502::STA,
