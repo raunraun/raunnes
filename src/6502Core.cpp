@@ -224,6 +224,10 @@ bool CPUCore6502::PageCrossed(const DynamicExecutionInfo& info) {
         uint16_t addr = Address(info);
         val = !SamePage(addr, addr - Y());
     }
+    else if (info.Details().AddresingMode == AddressingModeAbsoluteX) {
+        uint16_t addr = Address(info);
+        val = !SamePage(addr, addr - X());
+    }
 
     return val;
 }
@@ -232,7 +236,7 @@ bool CPUCore6502::SamePage(uint16_t a, uint16_t b) {
     uint16_t currentPage = a / 256;
     uint16_t nextPage = b / 256;
 
-    return a == b;
+    return currentPage == nextPage;
 }
 
 uint8_t CPUCore6502::Read(uint16_t address) {
