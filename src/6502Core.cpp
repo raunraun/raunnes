@@ -49,7 +49,6 @@ void CPUCore6502::Execute() {
     InstructionDetails details = g_InstructionDetails[opcode];
     DynamicExecutionInfo info(details, opcode, m_State.PC);
 
-
     for (uint32_t i = 1; i < details.InstructionSize; i++) {
         info.m_InstructionBytes[i] = Read(m_State.PC + i);
     }
