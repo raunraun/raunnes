@@ -123,6 +123,17 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (state.PC + details.Immediate() + (uint8_t)info.InstructionSize);
         s << std::setw(28 - 5) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeZeroPageX:
+    {
+        uint16_t addr1 = (uint32_t)details.Immediate();
+        uint16_t addr2 = addr1 + state.Y;
+
+        s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << addr1 << ",X";
+        s << " @ " << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << addr2;
+        s << " = " << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(addr2);
+        s << std::setw(28 - 15) << std::setfill(' ');
+    }
+        break;
     default:
         s << "!!!!";
         s << std::setw(28 - 4) << std::setfill(' ');

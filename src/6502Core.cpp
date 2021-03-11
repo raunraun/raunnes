@@ -192,6 +192,12 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
     else if (info.Details().AddresingMode == AddressingModeZeroPage) {
         val = info.AddressZeropage();
     }
+    else if (info.Details().AddresingMode == AddressingModeZeroPageX) {
+        uint16_t addr = info.Immediate();
+        uint16_t addr2 = addr + X();
+        
+        val = addr2;
+    }
 
     return val;
 }
@@ -264,6 +270,9 @@ uint8_t CPUCore6502::Value(const DynamicExecutionInfo& info) {
         val = Read(Address(info));
     }
     else if (info.Details().AddresingMode == AddressingModeZeroPage) {
+        val = Read(Address(info));
+    }
+    else if (info.Details().AddresingMode == AddressingModeZeroPageX) {
         val = Read(Address(info));
     }
     else {
