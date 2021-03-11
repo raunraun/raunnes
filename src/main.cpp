@@ -48,6 +48,12 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
         s << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)map.Read(details.Address());
         s << std::setw(28 - 8) << std::setfill(' ');
         break;
+    case raunnes::CPUCore6502::AddressingModeAbsoluteY:
+        s << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.AddressAbsolute() << ",Y";
+        s << " @ " << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
+        s << " = " << std::uppercase << std::setw(2) << std::setfill('0') << (uint32_t)map.Read(details.Address());
+        s << std::setw(28 - 19) << std::setfill(' ');
+        break;
     case raunnes::CPUCore6502::AddressingModeAccumulator:
         s << "A";
         s << std::setw(28 - 1) << std::setfill(' ');
