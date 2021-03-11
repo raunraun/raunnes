@@ -208,6 +208,10 @@ bool CPUCore6502::PageCrossed(const DynamicExecutionInfo& info) {
     if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
         uint16_t addr = Address(info);
         val = !SamePage(addr, addr - Y());
+    } 
+    else if (info.Details().AddresingMode == AddressingModeAbsoluteY) {
+        uint16_t addr = Address(info);
+        val = !SamePage(addr, addr - Y());
     }
 
     return val;
