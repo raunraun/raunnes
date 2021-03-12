@@ -163,6 +163,7 @@ public:
     void INY(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
     void JSR(const DynamicExecutionInfo& info);
+    void LAX(const DynamicExecutionInfo& info);
     void LDA(const DynamicExecutionInfo& info);
     void LDX(const DynamicExecutionInfo& info);
     void LDY(const DynamicExecutionInfo& info);

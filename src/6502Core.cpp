@@ -558,11 +558,19 @@ void CPUCore6502::JSR(const DynamicExecutionInfo& info) {
     m_State.PC = info.Address();
 }
 
+void CPUCore6502::LAX(const DynamicExecutionInfo& info) {
+    A() = Value(info);
+    X() = A();
+
+    SetZN(A());
+}
+
 void CPUCore6502::LDA(const DynamicExecutionInfo& info) {
     A() = Value(info);
 
     SetZN(A());
 }
+
 void CPUCore6502::LDX(const DynamicExecutionInfo& info) {
     X() = Value(info);
 

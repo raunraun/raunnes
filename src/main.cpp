@@ -24,7 +24,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     for (; i < 3; i++) {
         s << "   ";
     }
-    s << " ";
+    s << "";
     s << std::uppercase << info.Name;
     s << " ";
 
