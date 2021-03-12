@@ -30,8 +30,8 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 
     switch (info.AddresingMode) {
     case raunnes::CPUCore6502::AddressingModeAbsolute:
-        if (std::strncmp(info.Name, "JMP", 3) == 0 ||
-            std::strncmp(info.Name, "JSR", 3) == 0) {
+        if (std::strncmp(info.Name+1, "JMP", 3) == 0 ||
+            std::strncmp(info.Name+1, "JSR", 3) == 0) {
             s << "$" << std::uppercase << std::setw(4) << std::setfill('0') << std::hex << details.Address();
             s << std::setw(28 - 5) << std::setfill(' ');
         }
