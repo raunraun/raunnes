@@ -158,6 +158,9 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
     if (info.Details().AddresingMode == AddressingModeAbsolute) {
         val = info.AddressAbsolute();
     }
+    else if (info.Details().AddresingMode == AddressingModeAbsolute) {
+        val = info.AddressAbsolute();
+    }
     else if (info.Details().AddresingMode == AddressingModeAbsoluteX) {
         uint16_t addr1 = info.AddressAbsolute();
         uint16_t addr2 = addr1 + X();
@@ -184,6 +187,11 @@ uint16_t CPUCore6502::Address(const DynamicExecutionInfo& info) {
         uint16_t addr2 = Read16Bug(addr1);
 
         val = addr2;
+    }
+    else if (info.Details().AddresingMode == AddressingModeRelative) {
+        int8_t offset = info.Immediate();
+
+        val = (int16_t)PC() + offset;
     }
     else if (info.Details().AddresingMode == AddressingModeIndirectIndexed) {
         uint16_t addr1 = info.Immediate();
@@ -418,7 +426,7 @@ void CPUCore6502::BMI(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
     if (m_State.Z == 0) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = Address(info);
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
