@@ -120,7 +120,7 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
     }
         break;
     case raunnes::CPUCore6502::AddressingModeRelative:
-        s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (state.PC + details.Immediate() + (uint8_t)info.InstructionSize);
+        s << "$" << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << (details.Address() + (uint8_t)info.InstructionSize);
         s << std::setw(28 - 5) << std::setfill(' ');
         break;
     case raunnes::CPUCore6502::AddressingModeZeroPageX:
