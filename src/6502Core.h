@@ -178,6 +178,7 @@ public:
     void ROR(const DynamicExecutionInfo& info);
     void RTI(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
+    void SAX(const DynamicExecutionInfo& info);
     void SBC(const DynamicExecutionInfo& info);
     void SEC(const DynamicExecutionInfo& info);
     void SEI(const DynamicExecutionInfo& info);

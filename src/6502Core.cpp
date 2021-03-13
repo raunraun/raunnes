@@ -657,6 +657,12 @@ void CPUCore6502::RTI(const DynamicExecutionInfo& info) {
     PC() = Pop16();
 }
 
+void CPUCore6502::SAX(const DynamicExecutionInfo& info) {
+    uint8_t val = A() & X();
+
+    ValueUpdate(info, val);
+}
+
 void CPUCore6502::SBC(const DynamicExecutionInfo& info) {
     uint8_t a = A();
     uint8_t b = ~Value(info);
