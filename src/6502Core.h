@@ -162,6 +162,7 @@ public:
     void INC(const DynamicExecutionInfo& info);
     void INX(const DynamicExecutionInfo& info);
     void INY(const DynamicExecutionInfo& info);
+    void ISB(const DynamicExecutionInfo& info);
     void JMP(const DynamicExecutionInfo& info);
     void JSR(const DynamicExecutionInfo& info);
     void LAX(const DynamicExecutionInfo& info);

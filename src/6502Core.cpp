@@ -559,6 +559,27 @@ void CPUCore6502::INY(const DynamicExecutionInfo& info) {
     SetZN(Y());
 }
 
+void CPUCore6502::ISB(const DynamicExecutionInfo& info) {
+    uint8_t value = Value(info) + 1;
+    ValueUpdate(info, value);
+
+    uint8_t a = A();
+    uint8_t b = ~value;
+    uint8_t c = m_State.C;
+
+    A() = a + b + c;
+
+    SetC(A() <= a);
+    SetN(A());
+    SetZ(A());
+
+    // http://www.righto.com/2013/01/a-small-part-of-6502-chip-explained.html
+    // http://www.righto.com/2012/12/the-6502-overflow-flag-explained.html
+    // V = not (((A7 NOR B7) and C6) NOR ((A7 NAND B7) NOR C6))
+    bool v = (b ^ A()) & (a ^ A()) & 0x80;
+    SetV(v);
+}
+
 void CPUCore6502::JMP(const DynamicExecutionInfo& info) {
     m_State.PC = info.Address();
 }
