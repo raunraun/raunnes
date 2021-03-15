@@ -520,6 +520,17 @@ void CPUCore6502::DEY(const DynamicExecutionInfo& info) {
     SetZN(Y());
 }
 
+void CPUCore6502::DCP(const DynamicExecutionInfo& info) {
+    int8_t value = Value(info) - 1;
+    ValueUpdate(info, value);
+
+    uint8_t uvalue = value;
+    
+    SetZ(A() == uvalue);
+    SetC(A() >= uvalue);
+    SetN(A() - uvalue);
+}
+
 void CPUCore6502::EOR(const DynamicExecutionInfo& info) {
     uint8_t val = Value(info);
 
