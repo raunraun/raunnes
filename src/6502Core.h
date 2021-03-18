@@ -176,6 +176,7 @@ public:
     void PHP(const DynamicExecutionInfo& info);
     void PLA(const DynamicExecutionInfo& info);
     void PLP(const DynamicExecutionInfo& info);
+    void RLA(const DynamicExecutionInfo& info);
     void ROL(const DynamicExecutionInfo& info);
     void ROR(const DynamicExecutionInfo& info);
     void RTI(const DynamicExecutionInfo& info);
