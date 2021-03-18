@@ -749,6 +749,17 @@ void CPUCore6502::SLO(const DynamicExecutionInfo& info) {
     SetC(val >> 7);
 }
 
+void CPUCore6502::SRE(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info);
+    uint8_t newval = val >> 1;
+    ValueUpdate(info, newval);
+
+    A() ^= newval;
+
+    SetZN(A());
+    SetC(val & 0x1);
+}
+
 void CPUCore6502::STA(const DynamicExecutionInfo& info) {
     Write(Address(info), A());
 }
