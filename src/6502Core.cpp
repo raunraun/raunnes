@@ -693,6 +693,7 @@ void CPUCore6502::SAX(const DynamicExecutionInfo& info) {
     uint8_t val = A() & X();
 
     ValueUpdate(info, val);
+
 }
 
 void CPUCore6502::SBC(const DynamicExecutionInfo& info) {
@@ -723,6 +724,17 @@ void CPUCore6502::SEI(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::SED(const DynamicExecutionInfo& info) {
     m_State.D = 1;
+}
+
+void CPUCore6502::SLO(const DynamicExecutionInfo& info) {
+    uint8_t val = Value(info);
+    uint8_t newval = val << 1;
+    ValueUpdate(info, newval);
+
+    A() |= newval;
+
+    SetZN(A());
+    SetC(val >> 7);
 }
 
 void CPUCore6502::STA(const DynamicExecutionInfo& info) {

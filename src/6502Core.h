@@ -185,6 +185,7 @@ public:
     void SEC(const DynamicExecutionInfo& info);
     void SEI(const DynamicExecutionInfo& info);
     void SED(const DynamicExecutionInfo& info);
+    void SLO(const DynamicExecutionInfo& info);
     void STA(const DynamicExecutionInfo& info);
     void STX(const DynamicExecutionInfo& info);
     void STY(const DynamicExecutionInfo& info);
