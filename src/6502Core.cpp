@@ -339,9 +339,26 @@ void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageC
     }
 }
 
+void CPUCore6502::IRQ() {
+    Push16(PC());
+    Push(m_State.P | 0x10);
+    PC() = Read16(0xFFFE);
+    m_State.I = 1;
+    m_Cycles += 7;
+}
+
+void CPUCore6502::NMI() {
+    Push16(PC());
+    Push(m_State.P | 0x10);
+    PC() = Read16(0xFFFA);
+    m_State.I = 1;
+    m_Cycles += 7;
+}
+
 void CPUCore6502::Unimplemented(const DynamicExecutionInfo& info) {
     assert(0);
 }
+
 void CPUCore6502::ADC(const DynamicExecutionInfo& info) {
     uint8_t a = A();
     uint8_t b = Value(info);
@@ -432,6 +449,13 @@ void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
 
         m_State.PC = newPC;
     }
+}
+
+void CPUCore6502::BRK(const DynamicExecutionInfo& info) {
+    Push16(PC());
+    Push(m_State.P | 0x10);
+    PC() = Read16(0xFFFE);
+    m_State.I = 1;
 }
 
 void CPUCore6502::BPL(const DynamicExecutionInfo& info) {

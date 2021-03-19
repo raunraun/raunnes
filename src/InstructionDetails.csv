@@ -1,5 +1,5 @@
 // Addressing Mode,// Instruction Size,// Instruction Cycle Count,// Page Cross Cycle Cost,// Name
-6,2,7,0," BRK", &CPUCore6502::Unimplemented,
+6,2,7,0," BRK", &CPUCore6502::BRK,
 7,2,6,0," ORA", &CPUCore6502::ORA,
 6,0,2,0," KIL", &CPUCore6502::Unimplemented,
 7,2,8,0,"*SLO", &CPUCore6502::SLO,

@@ -134,6 +134,9 @@ public:
 
     void AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageCrossCost);
 
+    void IRQ();
+    void NMI();
+
     void Unimplemented(const DynamicExecutionInfo& info);
 
     void ADC(const DynamicExecutionInfo& info);
@@ -146,6 +149,7 @@ public:
     void BMI(const DynamicExecutionInfo& info);
     void BNE(const DynamicExecutionInfo& info);
     void BPL(const DynamicExecutionInfo& info);
+    void BRK(const DynamicExecutionInfo& info);
     void BVC(const DynamicExecutionInfo& info);
     void BVS(const DynamicExecutionInfo& info);
     void CLC(const DynamicExecutionInfo& info);
