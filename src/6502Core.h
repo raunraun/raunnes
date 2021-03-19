@@ -29,7 +29,7 @@ public:
         };
 
         uint16_t PC;
-        uint16_t SP;
+        uint8_t SP;
 
         void SetFlags(uint8_t Flag) {
             P = Flag;
@@ -116,7 +116,7 @@ public:
     uint8_t& X();
     uint8_t& Y();
     uint16_t& PC();
-    uint16_t& SP();
+    uint8_t& SP();
 
     uint16_t Address(const DynamicExecutionInfo& info);
     bool PageCrossed(const DynamicExecutionInfo& info);

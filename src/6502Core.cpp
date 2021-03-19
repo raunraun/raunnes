@@ -148,7 +148,7 @@ uint16_t& CPUCore6502::PC() {
     return m_State.PC;
 }
 
-uint16_t& CPUCore6502::SP() {
+uint8_t& CPUCore6502::SP() {
     return m_State.SP;
 }
 
