@@ -179,6 +179,7 @@ public:
     void RLA(const DynamicExecutionInfo& info);
     void ROL(const DynamicExecutionInfo& info);
     void ROR(const DynamicExecutionInfo& info);
+    void RRA(const DynamicExecutionInfo& info);
     void RTI(const DynamicExecutionInfo& info);
     void RTS(const DynamicExecutionInfo& info);
     void SAX(const DynamicExecutionInfo& info);
