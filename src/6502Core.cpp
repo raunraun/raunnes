@@ -31,6 +31,7 @@ static  CPUCore6502::InstructionDetails g_InstructionDetails[256] = {
  }
 
 void CPUCore6502::Reset() {
+    // https://www.pagetable.com/?p=410/
     m_State.SP = 0xFD;
     m_State.PC = Read16(0xfffc);
     m_State.PC = 0xc000;
@@ -340,6 +341,7 @@ void CPUCore6502::AddBranchCycles(uint16_t oldPC, uint16_t newPC, uint32_t pageC
 }
 
 void CPUCore6502::IRQ() {
+    // https://www.pagetable.com/?p=410
     Push16(PC());
     Push(m_State.P | 0x10);
     PC() = Read16(0xFFFE);
@@ -348,6 +350,7 @@ void CPUCore6502::IRQ() {
 }
 
 void CPUCore6502::NMI() {
+    // https://www.pagetable.com/?p=410
     Push16(PC());
     Push(m_State.P | 0x10);
     PC() = Read16(0xFFFA);
@@ -452,6 +455,7 @@ void CPUCore6502::BNE(const DynamicExecutionInfo& info) {
 }
 
 void CPUCore6502::BRK(const DynamicExecutionInfo& info) {
+    // https://www.pagetable.com/?p=410
     Push16(PC());
     Push(m_State.P | 0x10);
     PC() = Read16(0xFFFE);
