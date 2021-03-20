@@ -6,6 +6,8 @@
 #include "6502Core.h"
 #include "MemoryMap.h"
 
+#include "GLFW/glfw3.h"
+
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::CPUCore6502::DynamicExecutionInfo& details,
     const raunnes::CPUCore6502::CPUCore6502State& state,
@@ -176,6 +178,21 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 }
 
 int main(int argc, char** argv) {
+
+    GLFWwindow* window;
+
+    if (!glfwInit())
+        return -1;
+
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+
     
     std::fstream romFile("../tests/nestest/nestest.nes", std::ios::in | std::ios::binary);
 
