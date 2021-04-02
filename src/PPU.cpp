@@ -1,5 +1,7 @@
 #include "PPU.h"
 
+#include <cassert>
+
 namespace raunnes {
 
 PPU::PPU(MemoryMap& memory) :
@@ -19,6 +21,10 @@ PPU::PPU(MemoryMap& memory) :
 PPU::~PPU() {
 }
 
+uint8_t PPU::I() const {
+    return (m_Control << 5) >> 7;
+}
+
 void PPU::WriteRegister(uint16_t address, uint8_t value) {
     switch (address) {
     case 0x2006:
@@ -33,6 +39,23 @@ void PPU::WriteRegister(uint16_t address, uint8_t value) {
         m_AddrHighEnable = !m_AddrHighEnable;
         break;
     }
+}
+
+uint8_t PPU::ReadRegister(uint16_t address) {
+    switch (address) {
+    case 0x2007:
+        if (I() == 0) {
+            m_Addr += 1;
+        }
+        else {
+            m_Addr += 32;
+        }
+        return m_Data;
+        break;
+    default:
+        assert(0 && "Unimplemented PPU Register Read");
+    }
+    return 0;
 }
 
 }

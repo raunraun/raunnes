@@ -5,8 +5,12 @@ class PPU {
 public:
     PPU(MemoryMap& memory);
     ~PPU();
+    
+    uint8_t I() const;
 
     void WriteRegister(uint16_t address, uint8_t value);
+    uint8_t ReadRegister(uint16_t address);
+
 
 private:
     MemoryMap& m_Map;
@@ -22,6 +26,10 @@ private:
 
     uint8_t m_Data;         // 	$2007 	dddd dddd 	PPU data read / write
     uint8_t m_OMADMA;       // 	$4014 	aaaa aaaa 	OAM DMA high address
+
+    uint8_t m_Pallette[32];
+    uint8_t m_VRAM[2048];
+    uint8_t m_OAMRAM[256];
 };
 
 }
