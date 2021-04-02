@@ -6,6 +6,8 @@
 #include "6502Core.h"
 #include "MemoryMap.h"
 
+#include "Window.h"
+
 #include "GLFW/glfw3.h"
 
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
@@ -179,19 +181,10 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 
 int main(int argc, char** argv) {
 
-    GLFWwindow* window;
-
     if (!glfwInit())
         return -1;
 
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-
-    glfwMakeContextCurrent(window);
+    raunnes::Window w;
 
     
     std::fstream romFile("../tests/nestest/nestest.nes", std::ios::in | std::ios::binary);
@@ -224,11 +217,13 @@ int main(int argc, char** argv) {
         cpu.InstallPreExecutionCallBack(log);
 
         for (int c = 0; c < 10000; c++) {
+            raunnes::Window::ShouldClose();
+            glfwPollEvents();
             cpu.Execute();
         }
     }
     
 
-
+    glfwTerminate();
     return 0;
 }
