@@ -21,7 +21,8 @@ private:
     uint8_t m_OAMData;      // 	$2004 	dddd dddd 	OAM data read / write
     uint8_t m_Scroll;       // 	$2005 	xxxx xxxx 	fine scroll position(two writes : X scroll, Y scroll)
     
-    uint8_t m_Addr;         // 	$2006 	aaaa aaaa 	PPU read / write address(two writes : most significant byte, least significant byte)
+    uint16_t m_Addr;         // 	$2006 	aaaa aaaa 	PPU read / write address(two writes : most significant byte, least significant byte)
+    uint16_t m_AddrTemp;
     bool    m_AddrHighEnable;
 
     uint8_t m_Data;         // 	$2007 	dddd dddd 	PPU data read / write

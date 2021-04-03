@@ -35,6 +35,7 @@ void PPU::WriteRegister(uint16_t address, uint8_t value) {
         }
         else {
             m_Addr |= value;
+            m_AddrTemp = m_Addr;
         }
         m_AddrHighEnable = !m_AddrHighEnable;
         break;
