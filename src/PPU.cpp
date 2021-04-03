@@ -27,6 +27,9 @@ uint8_t PPU::I() const {
 
 void PPU::WriteRegister(uint16_t address, uint8_t value) {
     switch (address) {
+    case 0x2000:
+        m_Control = value;
+        break;
     case 0x2006:
         if (m_AddrHighEnable) {
             m_Addr = 0;
@@ -44,6 +47,9 @@ void PPU::WriteRegister(uint16_t address, uint8_t value) {
 
 uint8_t PPU::ReadRegister(uint16_t address) {
     switch (address) {
+    case 0x2000:
+        return m_Control;
+        break;
     case 0x2007:
         if (I() == 0) {
             m_Addr += 1;
