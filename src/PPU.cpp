@@ -66,6 +66,9 @@ uint8_t PPU::ReadRegister(uint16_t address) {
     case 0x2000:
         return m_Control;
         break;
+    case 0x2002:
+        return m_Status;
+        break;
     case 0x2007:
     {
         uint8_t ret = m_Data;
