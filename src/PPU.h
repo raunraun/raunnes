@@ -1,5 +1,7 @@
 #include "MemoryMap.h"
 
+#include <vector>
+
 namespace raunnes {
 class PPU {
 public:
@@ -11,6 +13,9 @@ public:
     void WriteRegister(uint16_t address, uint8_t value);
     uint8_t ReadRegister(uint16_t address);
 
+    uint8_t Read(uint16_t address);
+
+    void Execute();
 
 private:
     MemoryMap& m_Map;
@@ -23,7 +28,7 @@ private:
     
     uint16_t m_Addr;         // 	$2006 	aaaa aaaa 	PPU read / write address(two writes : most significant byte, least significant byte)
     uint16_t m_AddrTemp;
-    bool    m_AddrHighEnable;
+    bool     m_AddrHighEnable;
 
     uint8_t m_Data;         // 	$2007 	dddd dddd 	PPU data read / write
     uint8_t m_OMADMA;       // 	$4014 	aaaa aaaa 	OAM DMA high address
@@ -31,6 +36,8 @@ private:
     uint8_t m_Pallette[32];
     uint8_t m_VRAM[2048];
     uint8_t m_OAMRAM[256];
+
+    std::vector<uint8_t> m_ChrRom;
 };
 
 }
