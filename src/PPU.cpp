@@ -30,6 +30,23 @@ void PPU::WriteRegister(uint16_t address, uint8_t value) {
     case 0x2000:
         m_Control = value;
         break;
+    case 0x2001:
+        m_Mask = value;
+        break;
+    case 0x2003:
+        if (m_OAMAddrHighEnable) {
+            m_OAMAddr = 0;
+            m_OAMAddr = value;
+            m_OAMAddr <<= 8;
+        }
+        else {
+            m_OAMAddr |= value;
+        }
+        m_OAMAddrHighEnable = !m_OAMAddrHighEnable;
+        break;
+    case 0x2005:
+        m_Scroll = value;
+        break;
     case 0x2006:
         if (m_AddrHighEnable) {
             m_Addr = 0;
@@ -38,7 +55,6 @@ void PPU::WriteRegister(uint16_t address, uint8_t value) {
         }
         else {
             m_Addr |= value;
-            m_AddrTemp = m_Addr;
         }
         m_AddrHighEnable = !m_AddrHighEnable;
         break;

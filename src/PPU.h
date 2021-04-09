@@ -22,12 +22,14 @@ private:
     uint8_t m_Control;      // 	$2000 	VPHB SINN 	NMI enable(V), PPU master / slave(P), sprite height(H), background tile select(B), sprite tile select(S), increment mode(I), nametable select(NN)
     uint8_t m_Mask;         // 	$2001 	BGRs bMmG 	color emphasis(BGR), sprite enable(s), background enable(b), sprite left column enable(M), background left column enable(m), greyscale(G)
     uint8_t m_Status;       // 	$2002 	VSO - ----vblank(V), sprite 0 hit(S), sprite overflow(O); read resets write pair for $2005 / $2006
+    
     uint8_t m_OAMAddr;      // 	$2003 	aaaa aaaa 	OAM read / write address
+    bool    m_OAMAddrHighEnable;
     uint8_t m_OAMData;      // 	$2004 	dddd dddd 	OAM data read / write
+    
     uint8_t m_Scroll;       // 	$2005 	xxxx xxxx 	fine scroll position(two writes : X scroll, Y scroll)
     
     uint16_t m_Addr;         // 	$2006 	aaaa aaaa 	PPU read / write address(two writes : most significant byte, least significant byte)
-    uint16_t m_AddrTemp;
     bool     m_AddrHighEnable;
 
     uint8_t m_Data;         // 	$2007 	dddd dddd 	PPU data read / write
