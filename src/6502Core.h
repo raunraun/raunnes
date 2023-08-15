@@ -62,7 +62,7 @@ public:
         uint32_t InstructionSize;
         uint32_t CycleCount;
         uint32_t PageCrossCycleCost;
-        char* Name;
+        const char* Name;
         CPUCore6502::ExecutionDelegate Delegate;
 
     };
