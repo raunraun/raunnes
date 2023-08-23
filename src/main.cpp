@@ -4,6 +4,8 @@
 #include <sstream>
 #include <cstring>
 
+#include <SDL2/SDL.h>
+
 #include "6502Core.h"
 #include "MemoryMap.h"
 
@@ -178,6 +180,15 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 
 int main(int argc, char** argv) {
 
+    SDL_Init(SDL_INIT_EVERYTHING);
+
+    SDL_Window *window = SDL_CreateWindow("raunnes", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
+    if(window == nullptr) {
+        std::cerr << "Failed to create SDL Window" << SDL_GetError() << std::endl;
+        return -1;
+    }
+
+
     std::fstream romFile("../tests/nestest/nestest.nes", std::ios::in | std::ios::binary);
 
     struct _NESHeader{
@@ -209,8 +220,11 @@ int main(int argc, char** argv) {
 
         for (int c = 0; c < 10000; c++) {
             cpu.Execute();
+            SDL_Delay(20);
         }
     }
     
+
+    SDL_Quit();
     return 0;
 }
