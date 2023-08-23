@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 
 namespace raunnes {
 MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize) {
