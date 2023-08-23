@@ -2,13 +2,10 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <cstring>
 
 #include "6502Core.h"
 #include "MemoryMap.h"
-
-#include "Window.h"
-
-#include "GLFW/glfw3.h"
 
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::CPUCore6502::DynamicExecutionInfo& details,
@@ -181,12 +178,6 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 
 int main(int argc, char** argv) {
 
-    if (!glfwInit())
-        return -1;
-
-    raunnes::Window w;
-
-    
     std::fstream romFile("../tests/nestest/nestest.nes", std::ios::in | std::ios::binary);
 
     struct _NESHeader{
@@ -217,13 +208,9 @@ int main(int argc, char** argv) {
         cpu.InstallPreExecutionCallBack(log);
 
         for (int c = 0; c < 10000; c++) {
-            raunnes::Window::ShouldClose();
-            glfwPollEvents();
             cpu.Execute();
         }
     }
     
-
-    glfwTerminate();
     return 0;
 }
