@@ -186,7 +186,7 @@ void PPU::Execute() {
                 // 2nd cycle of attribute table fetch;
                 break;
             case 5:
-                execState.chrAddress = nameTableIndex
+                execState.chrAddress = nameTableIndex;
                 bgLow = m_Map.ReadChr(execState.chrAddress);
                 execState.chrAddress += 1;
                 break;
