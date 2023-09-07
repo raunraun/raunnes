@@ -5,7 +5,7 @@
 #include <cstring>
 
 namespace raunnes {
-MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize) {
+MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize, uint8_t* chr, uint16_t chrSize) {
     m_Bytes.resize(0x10000);
 
     assert(prgSize >= 0x4000);
@@ -22,6 +22,8 @@ MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize) {
     for (uint32_t i = 0xc000; i < 0xffff; i += prgSize) {
         memcpy(&m_Bytes[i], prg, prgSize);
     }
+
+    memcpy(&m_ChrBytes, chr, chrSize);
 }
 
 MemoryMap::~MemoryMap() {
@@ -38,6 +40,13 @@ void MemoryMap::Write(uint16_t address, uint8_t value) {
     if (address < m_Bytes.size()) {
         m_Bytes[address] = value;
     }
+}
+
+uint8_t MemoryMap::ReadChr(uint16_t address) const {
+    if (address < m_ChrBytes.size()) {
+        return m_ChrBytes[address];
+    }
+    return 0;
 }
 
 }

@@ -8,6 +8,7 @@
 
 #include "6502Core.h"
 #include "MemoryMap.h"
+#include "PPU.h"
 
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::CPUCore6502::DynamicExecutionInfo& details,
@@ -214,13 +215,21 @@ int main(int argc, char** argv) {
         uint32_t prgSize = header.sizePRG * 16384;
         romFile.read((char*)buffer, prgSize);
 
-        raunnes::MemoryMap mem(buffer, prgSize);
+        uint8_t chrRom[8192] = { 0 };
+        uint32_t chrSize = header.sizeCHR * 8192;
+        romFile.read((char*)chrRom, chrSize);
+
+        raunnes::MemoryMap mem(buffer, prgSize, chrRom, chrSize);
         raunnes::CPUCore6502 cpu(mem);
+        raunnes::PPU ppu(mem);
+
         cpu.InstallPreExecutionCallBack(log);
 
         for (int c = 0; c < 10000; c++) {
             cpu.Execute();
-            SDL_Delay(20);
+            ppu.Execute();
+            SDL_UpdateWindowSurface(window);
+            //SDL_Delay(20);
         }
     }
     

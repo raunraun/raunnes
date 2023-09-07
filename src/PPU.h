@@ -17,8 +17,14 @@ public:
 
     void Execute();
 
+public:
+    PPU(const PPU&) = delete;
+    PPU& operator=(const PPU&) = delete;
+
 private:
     MemoryMap& m_Map;
+    uint32_t m_Cycle;
+
     uint8_t m_Control;      // 	$2000 	VPHB SINN 	NMI enable(V), PPU master / slave(P), sprite height(H), background tile select(B), sprite tile select(S), increment mode(I), nametable select(NN)
     uint8_t m_Mask;         // 	$2001 	BGRs bMmG 	color emphasis(BGR), sprite enable(s), background enable(b), sprite left column enable(M), background left column enable(m), greyscale(G)
     uint8_t m_Status;       // 	$2002 	VSO - ----vblank(V), sprite 0 hit(S), sprite overflow(O); read resets write pair for $2005 / $2006
@@ -39,7 +45,7 @@ private:
     uint8_t m_VRAM[2048];
     uint8_t m_OAMRAM[256];
 
-    std::vector<uint8_t> m_ChrRom;
+    uint8_t m_SecondaryOAMRAM[32];
 };
 
 }
