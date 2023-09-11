@@ -4,11 +4,19 @@
 #include <sstream>
 #include <cstring>
 
-#include <SDL2/SDL.h>
+//#include <SDL2/SDL.h>
+//#include <SDL2/SDL_ttf.h>
+
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "6502Core.h"
 #include "MemoryMap.h"
 #include "PPU.h"
+
+//#include <TGUI/TGUI.hpp>
+//#include <TGUI/Backend/SDL-Renderer.hpp>
+
 
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::CPUCore6502::DynamicExecutionInfo& details,
@@ -181,14 +189,13 @@ void log(const raunnes::CPUCore6502::InstructionDetails& info,
 
 int main(int argc, char** argv) {
 
-    SDL_Init(SDL_INIT_EVERYTHING);
+    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+    sf::RenderWindow ppuDebugger(sf::VideoMode(800, 600), "PPU Debugger");
 
-    SDL_Window *window = SDL_CreateWindow("raunnes", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
-    if(window == nullptr) {
-        std::cerr << "Failed to create SDL Window" << SDL_GetError() << std::endl;
-        return -1;
+    sf::Font monoFont;
+    if(monoFont.loadFromFile("/home/raun/Code/raunnes/deps/SpaceMono-Regular.ttf") == false) {
+        exit(0);
     }
-
 
     std::fstream romFile("../tests/nestest/nestest.nes", std::ios::in | std::ios::binary);
 
@@ -225,15 +232,35 @@ int main(int argc, char** argv) {
 
         cpu.InstallPreExecutionCallBack(log);
 
-        for (int c = 0; c < 10000; c++) {
+        bool quit = false;
+
+        while(window.isOpen()) {
+
+            sf::Event event;
+
+            while(window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    window.close();
+                }
+            }
+
+            // NTSC CPU == 1.79MHz
             cpu.Execute();
             ppu.Execute();
-            SDL_UpdateWindowSurface(window);
-            //SDL_Delay(20);
+
+            window.clear(sf::Color::Red);
+            window.display();
+
+            ppuDebugger.clear(sf::Color::Cyan);
+            sf::Text text;
+            text.setFont(monoFont);
+            text.setString("Farts");
+            text.setCharacterSize(18);
+            text.setFillColor(sf::Color::Black);
+            ppuDebugger.draw(text);
+            ppuDebugger.display();
         }
     }
     
-
-    SDL_Quit();
     return 0;
 }
