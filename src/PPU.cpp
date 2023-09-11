@@ -165,7 +165,7 @@ void PPU::Execute() {
     for(m_Cycle=0; m_Cycle<341; m_Cycle++) {
         // There are 3 cycles of the PPU for each CPU cycle
 
-        if(m_Cycle % 8 == 0) {
+        if(m_Cycle % 1 == 0) {
             uint32_t c = m_Cycle % 8;
 
             switch(c) {
