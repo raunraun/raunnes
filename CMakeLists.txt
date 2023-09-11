@@ -13,5 +13,4 @@ set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall")
 add_executable(raunnes ${SOURCES} ${INCLUDES})
 target_include_directories(${PROJECT_NAME} PRIVATE "/home/raun/Code/raunnes/deps") 
 target_link_libraries(${PROJECT_NAME}  sfml-graphics)
-target_link_libraries(${PROJECT_NAME} "/home/raun/Code/raunnes/deps/libtgui-s.a")
 
