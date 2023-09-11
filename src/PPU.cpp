@@ -97,7 +97,7 @@ uint8_t PPU::Read(uint16_t address) {
         //if (address < m_ChrRom.size()) {
         {
             uint8_t buffered = m_Data;
-            m_Data = m_Map.ReadChr(address);
+            m_Data = m_Map.ReadPPU(address);
             return  buffered;
         }
         assert(0 && "bad chr rom address");
@@ -187,14 +187,14 @@ void PPU::Execute() {
                 break;
             case 5:
                 execState.chrAddress = nameTableIndex;
-                bgLow = m_Map.ReadChr(execState.chrAddress);
+                bgLow = m_Map.ReadPPU(execState.chrAddress);
                 execState.chrAddress += 1;
                 break;
             case 6:
                 // 2nd cycle of bgLow read
                 break;
             case 7:
-                bgHigh = m_Map.ReadChr(execState.chrAddress);
+                bgHigh = m_Map.ReadPPU(execState.chrAddress);
                 execState.chrAddress += 1;
                 break;
             case 8:

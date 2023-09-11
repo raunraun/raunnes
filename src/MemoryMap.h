@@ -14,7 +14,7 @@ public:
     uint8_t Read(uint16_t address) const;
     void Write(uint16_t address, uint8_t value);
 
-    uint8_t ReadChr(uint16_t address) const;
+    uint8_t ReadPPU(uint16_t address) const;
     
 public:
     MemoryMap(const MemoryMap&) = delete;
@@ -22,7 +22,7 @@ public:
 
 private:
     std::vector<uint8_t> m_Bytes;
-    std::vector<uint8_t> m_ChrBytes;
+    std::vector<uint8_t> m_PPUBytes;
 };
 
 
