@@ -4,19 +4,12 @@
 #include <sstream>
 #include <cstring>
 
-//#include <SDL2/SDL.h>
-//#include <SDL2/SDL_ttf.h>
-
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "6502Core.h"
 #include "MemoryMap.h"
 #include "PPU.h"
-
-//#include <TGUI/TGUI.hpp>
-//#include <TGUI/Backend/SDL-Renderer.hpp>
-
 
 void log(const raunnes::CPUCore6502::InstructionDetails& info,
     const raunnes::CPUCore6502::DynamicExecutionInfo& details,
@@ -252,10 +245,24 @@ int main(int argc, char** argv) {
             window.display();
 
             ppuDebugger.clear(sf::Color::Cyan);
+            std::stringstream ss;
+            for(int x=0; x<32; x++) {
+                ss << std::setw(2) << std::setfill('0') << std::hex << x << " ";
+            }
+            ss << "\n";
+
+            for(int x=0; x<32*30; x++) {
+                if(x % 32 == 0) {
+                    ss << "\n";
+                }
+                ss << std::setw(2) << std::setfill('0') << std::hex << (uint32_t)mem.ReadPPU(0x2000+x);
+                ss << ' ';
+            }
+
             sf::Text text;
             text.setFont(monoFont);
-            text.setString("Farts");
-            text.setCharacterSize(18);
+            text.setString(ss.str());
+            text.setCharacterSize(12);
             text.setFillColor(sf::Color::Black);
             ppuDebugger.draw(text);
             ppuDebugger.display();
