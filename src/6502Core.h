@@ -82,6 +82,7 @@ public:
         uint16_t AddressZeropage() const { return m_InstructionBytes[1]; }
         InstructionDetails& Details() const { return m_Details; }
         uint8_t Immediate() const { return m_InstructionBytes[1]; }
+        int8_t ImmediateSigned() const { return (uint8_t)m_InstructionBytes[1]; }
         const uint8_t* InstructionBytes() const { return m_InstructionBytes; }
         uint8_t Opcode() const { return m_InstructionBytes[0]; }
     };

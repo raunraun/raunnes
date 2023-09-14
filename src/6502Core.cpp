@@ -402,7 +402,7 @@ void CPUCore6502::ASL(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
     if (m_State.C == 0) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
     
@@ -412,7 +412,7 @@ void CPUCore6502::BCC(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
     if (m_State.C) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
@@ -422,7 +422,7 @@ void CPUCore6502::BCS(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BEQ(const DynamicExecutionInfo& info) {
     if (m_State.Z == 1) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
@@ -440,7 +440,7 @@ void CPUCore6502::BIT(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BMI(const DynamicExecutionInfo& info) {
     if (m_State.N == 1) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
@@ -468,7 +468,7 @@ void CPUCore6502::BRK(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BPL(const DynamicExecutionInfo& info) {
     if (m_State.N == 0) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
@@ -478,7 +478,7 @@ void CPUCore6502::BPL(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BVC(const DynamicExecutionInfo& info) {
     if (m_State.V == 0) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
@@ -488,7 +488,7 @@ void CPUCore6502::BVC(const DynamicExecutionInfo& info) {
 
 void CPUCore6502::BVS(const DynamicExecutionInfo& info) {
     if (m_State.V == 1) {
-        uint16_t newPC = m_State.PC + info.Immediate();
+        uint16_t newPC = m_State.PC + info.ImmediateSigned();
 
         AddBranchCycles(m_State.PC, newPC, info.Details().PageCrossCycleCost);
 
