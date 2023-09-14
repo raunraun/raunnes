@@ -34,7 +34,6 @@ void CPUCore6502::Reset() {
     // https://www.pagetable.com/?p=410/
     m_State.SP = 0xFD;
     m_State.PC = Read16(0xfffc);
-    m_State.PC = 0xc000;
 
     A() = 0;
     X() = 0;
@@ -251,12 +250,15 @@ bool CPUCore6502::SamePage(uint16_t a, uint16_t b) {
 uint8_t CPUCore6502::Read(uint16_t address) {
     return m_Memory.Read(address);
 }
-uint8_t CPUCore6502::Read16(uint16_t address) {
+uint16_t CPUCore6502::Read16(uint16_t address) {
     uint16_t low = m_Memory.Read(address);
     uint16_t high = m_Memory.Read(address+1);
 
-    return (high << 8) | low;
+    uint16_t result =  (high << 8) | low;
+
+    return result;
 }
+
 uint16_t CPUCore6502::Read16Bug(uint16_t address) {
     // https://everything2.com/title/6502+indirect+JMP+bug
     uint16_t addr_low = address;
@@ -265,7 +267,9 @@ uint16_t CPUCore6502::Read16Bug(uint16_t address) {
     uint16_t low = m_Memory.Read(addr_low);
     uint16_t high = m_Memory.Read(addr_high);
 
-    return (high << 8) | low;
+    uint16_t result =  (high << 8) | low;
+
+    return result;
 }
 
 void CPUCore6502::Write(uint16_t address, uint8_t value) {

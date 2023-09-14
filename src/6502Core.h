@@ -123,7 +123,7 @@ public:
     static bool SamePage(uint16_t a, uint16_t b);
 
     uint8_t Read(uint16_t address);
-    uint8_t Read16(uint16_t address);
+    uint16_t Read16(uint16_t address);
     uint16_t Read16Bug(uint16_t address);
 
     void Write(uint16_t address, uint8_t value);
