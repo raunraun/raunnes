@@ -7,7 +7,6 @@
 namespace raunnes {
 MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize, uint8_t* chr, uint16_t chrSize) {
     m_Bytes.resize(0x10000);
-    m_PPUBytes.resize(0x4000);
 
     assert(prgSize >= 0x4000);
     assert(prgSize % 0x4000 == 0);
@@ -25,7 +24,8 @@ MemoryMap::MemoryMap(uint8_t* prg, uint16_t prgSize, uint8_t* chr, uint16_t chrS
     }
 
     // Copy CHR Rom to 0x0 - 0x1fff
-    memcpy(&m_PPUBytes, chr, chrSize);
+    m_PPUBytes.resize(0x4000);
+    memcpy(&m_PPUBytes[0], chr, chrSize);
 }
 
 MemoryMap::~MemoryMap() {
@@ -33,7 +33,13 @@ MemoryMap::~MemoryMap() {
     
 uint8_t MemoryMap::Read(uint16_t address) const {
     if (address < m_Bytes.size()) {
-        return m_Bytes[address];
+
+        if((address >= 0x2000) && (address <= 0x2007)) {
+            // PPU registers
+            return 0;
+        } else {
+            return m_Bytes[address];
+        }
     }
     return 0;
 }
@@ -56,6 +62,7 @@ uint8_t MemoryMap::ReadPPU(uint16_t address) const {
     // $3F00-$3F1F      $0020 	Palette RAM indexes
     // $3F20-$3FFF      $00E0 	Mirrors of $3F00-$3F1F
 
+    int size = m_PPUBytes.size();
     if (address < m_PPUBytes.size()) {
 
         if((address >= 0x3000) && (address <= 0x3eff)) {
@@ -64,6 +71,9 @@ uint8_t MemoryMap::ReadPPU(uint16_t address) const {
         } else if((address >= 0x3f20) && (address <= 0x3fff)) {
             uint16_t newAddr = 0x3f00 + (address % 0x1f);
             return m_PPUBytes[newAddr];
+        
+        } else {
+            return m_PPUBytes[address];
         }
         
     }
